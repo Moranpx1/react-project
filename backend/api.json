@@ -1,0 +1,352 @@
+{
+  "openapi": "3.0.0",
+  "x-stoplight": {
+    "id": "ms9l6zh6gvgkp"
+  },
+  "info": {
+    "title": "Nachshon3",
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "paths": {
+    "/api/login": {
+      "post": {
+        "summary": "Login",
+        "operationId": "post-api-login",
+        "responses": {
+          "200": {
+            "description": "User logged in",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "username": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid params"
+          },
+          "404": {
+            "description": "Uesr doesn't exist"
+          }
+        },
+        "description": "Endpoint recives username and password object and sets the jwt token as the cookie",
+        "tags": [
+          "Login/Logout"
+        ]
+      }
+    },
+    "/api/logout": {
+      "post": {
+        "summary": "Logout",
+        "operationId": "post-api-logout",
+        "responses": {
+          "200": {
+            "description": "User logged out"
+          }
+        },
+        "description": "Endpoint deletes the user's cookie",
+        "tags": [
+          "Login/Logout"
+        ]
+      }
+    },
+    "/api/register": {
+      "post": {
+        "summary": "Register/create user",
+        "operationId": "post-api-register",
+        "responses": {
+          "200": {
+            "description": "User registered successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "user": {
+                      "$ref": "#/components/schemas/User"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid params"
+          }
+        },
+        "tags": [
+          "Login/Logout"
+        ],
+        "description": "Endpoint registers user"
+      }
+    },
+    "/api/users/:user_id/tasks": {
+      "get": {
+        "summary": "Get user's tasks",
+        "tags": [
+          "Tasks"
+        ],
+        "responses": {
+          "200": {
+            "description": "User's tasks found and returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Task"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid user id"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        },
+        "operationId": "get-api-users-user_id-tasks",
+        "description": "Endpoint returns the tasks of the user identified with the user id given as a query parameter"
+      },
+      "parameters": []
+    },
+    "/api/tasks/:task_id": {
+      "get": {
+        "summary": "Get task",
+        "tags": [
+          "Tasks"
+        ],
+        "responses": {
+          "200": {
+            "description": "Task found and returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "task": {
+                      "$ref": "#/components/schemas/Task"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid task id"
+          },
+          "404": {
+            "description": "Task not found"
+          }
+        },
+        "operationId": "get-api-tasks-:task_id",
+        "description": "Endpoint returns the task identified with the task id given as a query parameter"
+      },
+      "put": {
+        "summary": "Update task",
+        "operationId": "put-api-tasks-:task_id",
+        "responses": {
+          "200": {
+            "description": "Task updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "task": {
+                      "$ref": "#/components/schemas/Task"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid params"
+          },
+          "404": {
+            "description": "Task not found"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "task": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "status": {
+                    "type": "string"
+                  },
+                  "end_time": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "Endpoint recives task object and updates the task with the id given in the URL to it",
+        "tags": [
+          "Tasks"
+        ]
+      },
+      "delete": {
+        "summary": "Delete task",
+        "operationId": "delete-api-tasks-:task_id",
+        "responses": {
+          "200": {
+            "description": "Task deleted"
+          },
+          "404": {
+            "description": "Task not found"
+          }
+        },
+        "description": "Endpoint deletes the task with the id given as a query parameter",
+        "tags": [
+          "Tasks"
+        ]
+      }
+    },
+    "/api/tasks/": {
+      "post": {
+        "summary": "Create task",
+        "operationId": "post-api-tasks",
+        "responses": {
+          "200": {
+            "description": "Created task",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "task": {
+                      "$ref": "#/components/schemas/Task"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid params"
+          }
+        },
+        "description": "Endpoint recives task and creates it for the user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "task": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "status": {
+                    "type": "string"
+                  },
+                  "endtime": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Tasks"
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "title": "User",
+        "type": "object",
+        "x-examples": {
+          "Alice Smith": {
+            "id": 142,
+            "firstName": "Alice",
+            "lastName": "Smith",
+            "email": "alice.smith@gmail.com",
+            "dateOfBirth": "1997-10-31",
+            "emailVerified": true,
+            "signUpDate": "2019-08-24"
+          }
+        },
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "username",
+          "password"
+        ]
+      },
+      "Task": {
+        "title": "Task",
+        "x-stoplight": {
+          "id": "9dbaxdtdoakeu"
+        },
+        "type": "object",
+        "properties": {
+          "task_id": {
+            "type": "string"
+          },
+          "task": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "status_id": {
+            "type": "string"
+          },
+          "end_time": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "responses": {}
+  },
+  "tags": [
+    {
+      "name": "Login/Logout"
+    },
+    {
+      "name": "Tasks"
+    }
+  ]
+}
