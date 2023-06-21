@@ -1,0 +1,125 @@
+.App {
+    display: flex;
+    text-align: center;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(241, 241, 241);
+}
+
+.form{
+    padding:2rem;
+    padding-left: 5rem;
+    padding-right: 5rem;
+    min-height: 50vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    text-align: left;
+    background-color: white;
+    border-radius: 3rem;
+    font-size: 140%;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.register-form-container {
+    display: flex;
+    align-items: center;
+    text-align: left;
+    flex-direction: row;
+}
+
+.register-form-columns {
+    display: flex;
+    align-items: center;
+    text-align: left;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+label {
+    padding: 1rem;
+    color: rgb(129, 129, 129);
+}
+
+input {
+    border-radius: 1rem;
+    border: solid 0.01rem rgb(197, 197, 197);
+    padding: 0.5rem;
+    color: rgb(129, 129, 129);
+}
+
+input:active {
+    border: solid 0.01rem rgb(129, 129, 129);
+}
+
+/*Comments*/
+.errorText {
+    font-size: 80%;
+    color: rgb(255, 125, 125);
+}
+
+input:focus {
+    outline: none;
+    outline: solid 0.02rem rgb(105, 105, 105);
+}
+
+::placeholder {
+    color:rgb(197, 197, 197);
+    font-size: 90%;
+}
+
+/*Buttons*/
+
+button {
+    background-color: none;
+    border: none;
+}
+
+.bigButton {
+    padding: 0.8rem;
+    padding-top: 0.6rem;
+    margin: 1rem;
+    margin-top: 2rem;
+    border: none;
+    border-radius: 1rem;
+    background-color: rgb(234, 130, 243);
+    color: white;
+    font: 120%;
+    transition: 0.2s;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
+}
+
+.bigButton:hover {
+    transform:scale(1.1)
+}
+
+.bigButton:active {
+    background-color: rgb(246, 186, 252);
+}
+
+.periButton {
+    font-size: 90%;
+    color: rgb(187, 187, 187);
+    background-color: transparent;
+    transition: 0.15s;
+}
+
+.periButton:hover {
+    color:rgb(150, 150, 150);
+}
+
+.periButton:active {
+    color: rgb(109, 109, 109);
+}
+
+.heading {
+    color: rgb(234, 130, 243);
+    font-size: 180%;
+}
