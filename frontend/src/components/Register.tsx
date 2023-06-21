@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import axios from 'axios';
-import validaion from './Validation';
 
 const Register = (props: any) => {
-    
+  
+    //values store
   const [values, setValues] = useState({
     firstName: "",
     lastName: "",
@@ -20,12 +20,6 @@ const Register = (props: any) => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   
-  const [errors, setErrors] = useState({});
-
-  const handleValidation = () => {
-    
-  }
-
     //API related
     axios.post('/api/register', {
       username: values.userName,
@@ -49,12 +43,12 @@ const Register = (props: any) => {
             <div className = "register-form-container">
             <div className = "register-form-columns">
 
-        <label htmlFor = "firstName">First name</label>
-        <input type = "text" value = {values.firstName} onChange = {handleInput} placeholder="Your first name" id = "firstName" name = "firstName"></input>
+            <label htmlFor = "firstName">First name</label>
+            <input type = "text" value = {values.firstName} onChange = {handleInput} placeholder="Your first name" id = "firstName" name = "firstName"></input>
         
             <label htmlFor = "userName">User name</label>
             <input type = "text" value = {values.userName} onChange = {handleInput} placeholder="Choose a user name" id = "userName" name = "userName"></input>
-            
+
             <label htmlFor = "password">Password</label>
             <input type = "password" value = {values.password} onChange = {handleInput} placeholder="Create a password" id = "password" name = "password"></input>
 
