@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
 import axios from 'axios';
+import RegisterInput from './RegisterInput'
+
+// import validaion from './Validation';
 
 const Register = (props: any) => {
-  
-    //values store
+    
   const [values, setValues] = useState({
     firstName: "",
     lastName: "",
@@ -13,61 +15,103 @@ const Register = (props: any) => {
     confirmPassword: ""
   });
 
-  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValues({...values, [e.target.name]: e.target.value})
-  }
+  const inputsColumn1 = [
+    {
+      id: 1,
+      name: "firstName",
+      type: "text",
+      placeholder: "Enter First Name",
+      label: "First Name",
+      errorMessage: "Can not include numbers",
+      pattern: "^[^0-9]+$",
+      required: true
+    },
+    {
+      id: 2,
+      name: "userName",
+      type: "text",
+      placeholder: "Enter User Name",
+      label: "User Name",
+      errorMessage: "Must include at least 3 characters",
+      pattern: "^(?!\\s*$).{3,}$",
+      required: true
+    },
+    {
+      id: 3,
+      name: "password",
+      type: "password",
+      placeholder: "Enter Password",
+      label: "Password",
+      errorMessage: "Must include at least 8 characters",
+      pattern: "^(?!\\s*$).{8,}$",
+      required: true ,
+    }
+  ];
+  
+  
+  const inputsColumn2 = [
+    {
+      id: 1,
+      name: "lastName",
+      type: "text",
+      placeholder: "Enter Last Name",
+      label: "Last Name",
+      errorMessage: "Can not include numbers",
+      pattern: "^[^0-9]+$",
+      required: true
+    },
+    {
+      id: 2,
+      name: "email",
+      type: "email",
+      placeholder: "Enter Email",
+      label: "Email",
+      errorMessage: "Must be a valid address",
+      required: true
+    },
+    {
+      id: 3,
+      name: "confirmPassword",
+      type: "password",
+      placeholder: "Repeat Password",
+      label: "Confirm Password",
+      errorMessage: "Passwords must match",
+      pattern: values.password,
+      required: true
+    }
+  ];
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-  
-    //API related
-    axios.post('/api/register', {
-      username: values.userName,
-      password: values.password
-    })
-      .then(response => {
-        // Handle successful login response
-        console.log(response.data); // Log the response data or perform any necessary actions
-      })
-      .catch(error => {
-        // Handle error
-        console.error(error);
-      });
+  }
+
+  const onChange = (e: React.ChangeEvent<HTMLFormElement>) => {
+    console.log(e.target.value)
+    setValues({...values, [e.target.name]: e.target.value})
   }
   
   return (
     <div>
-          <form  className = "form" autoComplete = "off" onSubmit={handleSubmit}>
-          <div className = "heading">Create your account</div>
+      <form  className = "form" autoComplete = "off" onSubmit={handleSubmit}>
+        <div className = "heading">Create your account</div>
             
-            <div className = "register-form-container">
-            <div className = "register-form-columns">
+        <div className = "register-form-container">
+          <div className = "register-form-columns">
 
-            <label htmlFor = "firstName">First name</label>
-            <input type = "text" value = {values.firstName} onChange = {handleInput} placeholder="Your first name" id = "firstName" name = "firstName"></input>
-        
-            <label htmlFor = "userName">User name</label>
-            <input type = "text" value = {values.userName} onChange = {handleInput} placeholder="Choose a user name" id = "userName" name = "userName"></input>
-
-            <label htmlFor = "password">Password</label>
-            <input type = "password" value = {values.password} onChange = {handleInput} placeholder="Create a password" id = "password" name = "password"></input>
-
-
-            </div>
+            {inputsColumn1.map((input) => (
+              <RegisterInput key = {input.id} {...input} onChange = {onChange}/>  
+            ))}
+          
+          </div>
             
-            <div className = "register-form-columns">
-
-            <label htmlFor = "lastName">Last name</label>
-            <input type = "text" value = {values.lastName} onChange = {handleInput} placeholder="Your last name" id = "lastName" name = "lastName"></input>
-  
-            <label htmlFor = "email">Email</label>
-            <input type = "email" value = {values.email} onChange = {handleInput} placeholder="Enter your email" id = "email" name = "email"></input>
+          <div className = "register-form-columns">
             
-            <label htmlFor = "confirmPassword">Confirm password</label>
-            <input type = "password" value = {values.confirmPassword} onChange = {handleInput} placeholder="Reapeat your password" id = "ConfirmPassword" name = "ConfirmPassword"></input>
-
-            </div>
-            </div>
+            {inputsColumn2.map((input) => (
+                <RegisterInput key = {input.id} {...input} onChange = {onChange}/>  
+            ))}
+          
+          </div>
+        </div>
 
             <button className = "bigButton" type = "submit">Sign Up</button>
             <button className = "periButton" onClick={() => props.onFormSwitch("login")}>Already have an account? Click here to log in</button>
@@ -76,5 +120,6 @@ const Register = (props: any) => {
         </div>
       );
 }
+
 
 export default Register;
