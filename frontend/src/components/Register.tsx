@@ -1,8 +1,7 @@
 import React, {useState} from 'react';
 import axios from 'axios';
 import RegisterInput from './RegisterInput'
-
-// import validaion from './Validation';
+import "../css/App.css";
 
 const Register = (props: any) => {
     
@@ -51,7 +50,7 @@ const Register = (props: any) => {
   
   const inputsColumn2 = [
     {
-      id: 1,
+      id: 4,
       name: "lastName",
       type: "text",
       placeholder: "Enter Last Name",
@@ -61,7 +60,7 @@ const Register = (props: any) => {
       required: true
     },
     {
-      id: 2,
+      id: 5,
       name: "email",
       type: "email",
       placeholder: "Enter Email",
@@ -70,7 +69,7 @@ const Register = (props: any) => {
       required: true
     },
     {
-      id: 3,
+      id: 6,
       name: "confirmPassword",
       type: "password",
       placeholder: "Repeat Password",
@@ -82,7 +81,10 @@ const Register = (props: any) => {
   ];
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const user = {...values};
     e.preventDefault();
+    console.log("form submitted")
+    console.log(user)
   }
 
   const onChange = (e: React.ChangeEvent<HTMLFormElement>) => {
@@ -92,7 +94,7 @@ const Register = (props: any) => {
   
   return (
     <div>
-      <form  className = "form" autoComplete = "off" onSubmit={handleSubmit}>
+      <form className = "form" autoComplete = "off" onSubmit={handleSubmit}>
         <div className = "heading">Create your account</div>
             
         <div className = "register-form-container">
@@ -113,11 +115,11 @@ const Register = (props: any) => {
           </div>
         </div>
 
-            <button className = "bigButton" type = "submit">Sign Up</button>
-            <button className = "periButton" onClick={() => props.onFormSwitch("login")}>Already have an account? Click here to log in</button>
+          <button className = "bigButton" type = "submit">Sign Up</button>
+          <button className = "periButton" onClick={() => props.onFormSwitch("login")}>Already have an account? Click here to log in</button>
           
-          </form>
-        </div>
+      </form>
+    </div>
       );
 }
 

@@ -4,8 +4,8 @@ const RegisterInput = (props: any) => {
 
     return (
         <>
-            <label>{label}</label>
-            <input {...inputProps} onChange = {onChange}/>
+            <label htmlFor={id}>{label}</label>
+            <input {...inputProps} id = {id} onChange = {onChange}/>
             <span className = "errorText">{errorMessage}</span>
         </>
     )

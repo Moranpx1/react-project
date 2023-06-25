@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import axios from 'axios';
 import LoginInput from './LoginInputs';
+import "../css/App.css";
 
 const Login = (props: any) => {
 

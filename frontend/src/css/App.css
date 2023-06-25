@@ -62,13 +62,13 @@ input:active {
 .errorText {
     margin-top: 0.3rem;
     font-size: 65%;
-    color: rgb(230, 74, 74);
+    color: rgb(255, 108, 108);
     visibility: hidden;
 }
 
-input:invalid ~ .errorText {
+input:invalid:not(:placeholder-shown) + .errorText {
     visibility: visible;
-}
+  }
 
 input:focus {
     outline: none;
