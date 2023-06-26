@@ -1,4 +1,3 @@
-
 const LoginInput = (props: any) => {
 
     const {...inputProps} = props;

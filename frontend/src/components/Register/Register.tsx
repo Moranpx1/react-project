@@ -14,6 +14,12 @@ const Register = (props: any) => {
     confirmPassword: ""
   });
 
+  //User name errors
+  const [userNameError, setUserNameError] = useState("Must include at least 3 characters");  
+
+  const [userNameErrorClass, setUserNameErrorClass] = useState("errorText");
+
+  //Define attributes of inputs
   const inputsColumn1 = [
     {
       id: 1,
@@ -21,7 +27,8 @@ const Register = (props: any) => {
       type: "text",
       placeholder: "Enter First Name",
       label: "First Name",
-      errorMessage: "Can not include numbers",
+      errorMessage: userNameError,
+      errorCSS: "errorText",
       pattern: "^[^0-9]+$",
       required: true
     },
@@ -31,7 +38,8 @@ const Register = (props: any) => {
       type: "text",
       placeholder: "Enter User Name",
       label: "User Name",
-      errorMessage: "Must include at least 3 characters",
+      errorMessage: userNameError,
+      errorCSS: userNameErrorClass,
       pattern: "^(?!\\s*$).{3,}$",
       required: true
     },
@@ -42,6 +50,7 @@ const Register = (props: any) => {
       placeholder: "Enter Password",
       label: "Password",
       errorMessage: "Must include at least 8 characters",
+      errorCSS: "errorText",
       pattern: "^(?!\\s*$).{8,}$",
       required: true ,
     }
@@ -56,6 +65,7 @@ const Register = (props: any) => {
       placeholder: "Enter Last Name",
       label: "Last Name",
       errorMessage: "Can not include numbers",
+      errorCSS: "errorText",
       pattern: "^[^0-9]+$",
       required: true
     },
@@ -66,6 +76,7 @@ const Register = (props: any) => {
       placeholder: "Enter Email",
       label: "Email",
       errorMessage: "Must be a valid address",
+      errorCSS: "errorText",
       required: true
     },
     {
@@ -75,25 +86,55 @@ const Register = (props: any) => {
       placeholder: "Repeat Password",
       label: "Confirm Password",
       errorMessage: "Passwords must match",
+      errorCSS: "errorText",
       pattern: values.password,
       required: true
     }
   ];
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    const user = {...values};
-    e.preventDefault();
-    console.log("form submitted")
-    console.log(user)
-  }
-
+  //OnChange of input fields
   const onChange = (e: React.ChangeEvent<HTMLFormElement>) => {
     console.log(e.target.value)
     setValues({...values, [e.target.name]: e.target.value})
+
+    if(e.target.name==='userName')
+    {
+      setUserNameError('Must include at least 3 characters')
+      setUserNameErrorClass('errorText')
+    }
   }
-  
+
+  //Submit
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+
+    e.preventDefault();
+    console.log("form submitted")
+
+    //Setting values
+    const userName = values.userName;
+    const password = values.password;
+
+    //API related
+    axios
+    .post("http://localhost:3000/api/register", {
+      username: userName,
+      password: password
+    })
+    .then(response => {
+      console.log("success")
+    })
+    .catch(error => {
+      console.log("fail")
+
+      //Displaying error below user name
+      setUserNameErrorClass("visibleErrorText");
+      setUserNameError("User Name Already Taken");
+      console.log(userNameError)
+    })
+  }
+
   return (
-    <div>
+    <div className='App'>
       <form className = "form" autoComplete = "off" onSubmit={handleSubmit}>
         <div className = "heading">Create your account</div>
             
@@ -102,15 +143,15 @@ const Register = (props: any) => {
 
             {inputsColumn1.map((input) => (
               <RegisterInput key = {input.id} {...input} onChange = {onChange}/>  
-            ))}
+              ))}
           
           </div>
             
           <div className = "register-form-columns">
             
             {inputsColumn2.map((input) => (
-                <RegisterInput key = {input.id} {...input} onChange = {onChange}/>  
-            ))}
+              <RegisterInput key = {input.id} {...input} onChange = {onChange}/>  
+              ))}
           
           </div>
         </div>
@@ -121,7 +162,7 @@ const Register = (props: any) => {
       </form>
     </div>
       );
-}
-
-
-export default Register;
+    }
+    
+    
+    export default Register;

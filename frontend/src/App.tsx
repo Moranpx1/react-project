@@ -1,8 +1,9 @@
 import React, {useState} from "react";
-import Login from "./components/Login";
-import Register from "./components/Register";
+import Login from "./components/Login/Login";
+import Register from "./components/Register/Register";
 import TaskList from "./components/TaskList";
 import "bootstrap/dist/css/bootstrap-grid.min.css";
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 const App = () => {
 
@@ -14,8 +15,9 @@ const App = () => {
 
   return (
     // <TaskList/>
-    <div className="App">
-      {currentForm === "login" ? <Login onFormSwitch = {toggleForm}/> : <Register onFormSwitch = {toggleForm}/>}
+    <div>
+      {/* {currentForm === "login" ? <Login onFormSwitch = {toggleForm}/> : <Register onFormSwitch = {toggleForm}/>} */}
+      <TaskList/>
     </div>  
   );
 };
