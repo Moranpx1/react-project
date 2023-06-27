@@ -136,7 +136,7 @@ const Register = (props: any) => {
   return (
     <div className='App'>
       <form className = "form" autoComplete = "off" onSubmit={handleSubmit}>
-        <div className = "heading">Create your account</div>
+        <div className = "heading text-info">Create your account</div>
             
         <div className = "register-form-container">
           <div className = "register-form-columns">
@@ -156,7 +156,7 @@ const Register = (props: any) => {
           </div>
         </div>
 
-          <button className = "bigButton" type = "submit">Sign Up</button>
+          <button className = "bigButton bg-info" type = "submit">Sign Up</button>
           <button className = "periButton" onClick={() => props.onFormSwitch("login")}>Already have an account? Click here to log in</button>
           
       </form>

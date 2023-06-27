@@ -68,14 +68,14 @@ const Login = (props: any) => {
     <div className='App'>
         <div className = "auth-form-container">
           <form className = "form" autoComplete = "off" onSubmit={handleSubmit}>
-            <div className = "heading">Login</div>
+            <div className = "heading text-info">Login</div>
             
             {inputs.map((input) => (
               <LoginInput key = {input.id} {...input} onChange = {onChange}/>  
             ))}
             <span className = "visibleErrorText">{errorMessage}</span>
             
-            <button className = "bigButton" type = "submit">Login</button>
+            <button className = "bigButton bg-info" type = "submit">Login</button>
             <button className = "periButton" onClick={() => props.onFormSwitch("register")}>Don't have an account? Sign Up here</button>
           </form>
         </div>

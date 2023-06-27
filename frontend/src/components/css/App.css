@@ -47,16 +47,28 @@ label {
     color: rgb(129, 129, 129);
 }
 
-input {
+input{
     border-radius: 1rem;
     border: solid 0.01rem rgb(197, 197, 197);
     padding: 0.5rem;
     color: rgb(129, 129, 129);
 }
 
-input:active {
-    border: solid 0.01rem rgb(129, 129, 129);
+textarea{
+    border-radius: 1rem;
+    border: solid 0.01rem rgb(197, 197, 197);
+    padding: 0.5rem;
+    color: rgb(129, 129, 129);
 }
+
+.fullWidth{
+    width: 100%;
+}
+
+input:active, textarea:active{
+    border: solid 0.08rem rgb(0, 0, 0);
+}
+
 
 /*Error*/
 .errorText {
