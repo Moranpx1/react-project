@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import CreateTask from './modals/CreateTask';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'; 
 import Task from './Interfaces/Task';   
+import Card from './Card'
 
 const TaskList = () => {
     
@@ -16,21 +17,36 @@ const TaskList = () => {
     const [taskList, setTaskList] = useState<Task[]>([]);   
 
     const saveTask = (taskObj: Task) => {
-        const tempList = [...taskList];
+        let tempList = [...taskList];
         tempList.push(taskObj);
         setTaskList(tempList);
+        console.log(taskObj.date)
+        setModal(false);
+
+        //Setting data
+        // localStorage.setItem("taskList", JSON.stringify(tempList))
     }
+
+    //Delete task
+    const deleteTask = (taskId: string) => {
+        const tempList = taskList.filter(task => task.taskId !== taskId);
+        setTaskList(tempList);
+        // localStorage.setItem("taskList", JSON.stringify(tempList));
+    };
 
     return (
         <>
             <div className = 'header text-center'>
-                <div className = 'heading text-info'>Todoos</div>
-                <button className = 'btn btn-info text-white' onClick = {() => setModal(true)}>Create Task</button>
+                {/* <div className = 'heading'>Todoos</div> */}
+                <button className = 'bigButton' onClick = {() => setModal(true)}>Create Task</button>
             </div>
-
-            <div className = 'taskContainer'>
-            </div>
-            <CreateTask toggle = {toggle} modal = {modal} save = {saveTask()}/>
+            
+            <div className='centerTaskContainer'> 
+                <div className = 'task-container'>
+                    {taskList.map((obj) => <Card key = {obj.taskId} taskObj = {obj} deleteTask = {deleteTask}/>)}
+                </div>
+                <CreateTask toggle = {toggle} modal = {modal} save = {saveTask}/>
+            </div>  
         </>
     );
 };

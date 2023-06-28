@@ -1,36 +1,21 @@
-import React, { useState } from 'react';
+import React, { ReactEventHandler, useEffect, useState } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';   
 import Task from '../Interfaces/Task'; 
 
-const CreateTask = (props: any) => {
-    const modal = props.modal;
-    const toggle = props.toggle;
-    const save = props.save;
+
+interface UpdateTaskProps {
+    modal: boolean;
+    toggle: () => void;
+    taskObj: Task;
+    updateTask: (obj: Task) => void;
+  }
+  
+  const UpdateTask: React.FC<UpdateTaskProps> = ({modal, toggle, taskObj, updateTask}) => {
 
     //Set values
-    const [taskId, setTaskId] = useState('');
     const [taskName, setTaskName] = useState('');
     const [description, setDescription] = useState('');
     const [date, setDate] = useState('');
-    const [status, setStatus] = useState('base');
-
-    //Generate ID
-    const generateTaskId = () => {
-      return Math.random().toString(36).substring(2, 15);
-    }
-
-    //Handle save of task
-    const handleSave = () => {
-      let taskObj: Task = {
-        taskId: generateTaskId(),
-        taskName: taskName,
-        description: description,
-        date: date,
-        status: status
-      }
-      console.log(taskObj)
-      save(taskObj);
-    }
 
     //Handle change
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -45,9 +30,28 @@ const CreateTask = (props: any) => {
       }
     };
 
+    useEffect(()=> {
+        setTaskName(taskObj.taskName);
+        setDescription(taskObj.description) 
+    }, [])
+
+    
+    //Handle save of task
+    const handleUpdate = (e: Event) => {
+        e.preventDefault();
+        let tempObj: Task = {
+          taskId: taskObj.taskId,
+          taskName: taskName,
+          description: description,
+          date: date,
+          status: taskObj.status
+        }
+        UpdateTask({tempObj});
+    }
+
     return (
-     <Modal isOpen={modal} toggle={toggle}>
-        <ModalHeader toggle={toggle}>Create Task</ModalHeader>
+     <Modal isOpen = {modal} toggle = {toggle}>
+        <ModalHeader toggle={toggle}>Update Task</ModalHeader>
         <ModalBody>
             <form>
                 <div className = 'form-group'>
@@ -66,8 +70,8 @@ const CreateTask = (props: any) => {
             </form>
         </ModalBody>
         <ModalFooter>
-          <Button type='submit' color = 'info text-white' onClick={handleSave}>
-            Create
+          <Button type='submit' color = 'info text-white' onClick = {handleUpdate}>
+            Update
           </Button>{' '}
           <Button color="secondary" onClick={toggle}>
             Cancel
@@ -77,4 +81,4 @@ const CreateTask = (props: any) => {
     );
 };
 
-export default CreateTask;
+export default UpdateTask;

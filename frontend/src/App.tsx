@@ -3,6 +3,15 @@ import Login from "./components/Login/Login";
 import Register from "./components/Register/Register";
 import TaskList from "./components/TaskList";
 import 'bootstrap/dist/css/bootstrap.min.css'
+import {
+  DndContext,
+  closestCenter
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  verticalListSortingStrategy 
+} from "@dnd-kit/sortable"
 
 const App = () => {
 

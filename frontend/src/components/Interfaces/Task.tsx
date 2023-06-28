@@ -1,8 +1,9 @@
 interface Task {
-    id: string;
+    taskId: string;
     taskName: string;
     description: string;
     date: string;
+    status: string;
 }
 
 export default Task;
