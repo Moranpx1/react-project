@@ -4,6 +4,7 @@ import UpdateTask from "./Popups/UpdateTask";
 import DeleteTask from "./Popups/DeleteTask";
 import isInDeadLine from "./Functions/isInDeadline";
 
+
 //Colors
 const baseColor = {
   primary: "#91b5c2",
@@ -37,7 +38,7 @@ const Card = (props: any) => {
       taskId: taskObj.taskId,
       taskName: taskObj.taskName,
       description: taskObj.description,
-      date: taskObj.date,
+      deadline: taskObj.deadline,
       status: "checked",
     };
     changeTaskStatus(tempObj);
@@ -50,11 +51,12 @@ const Card = (props: any) => {
       taskId: taskObj.taskId,
       taskName: taskObj.taskName,
       description: taskObj.description,
-      date: taskObj.date,
+      deadline: taskObj.deadline,
       status: taskObj.status,
     };
     if (taskObj.status != "checked") {
-      if (!isInDeadLine(taskObj)) {
+      if (!isInDeadLine(taskObj
+        )) {
         console.log("alert");
         tempObj.status = "alert";
       } else {
@@ -62,7 +64,7 @@ const Card = (props: any) => {
       }
     }
     changeTaskStatus(tempObj);
-  }, [taskObj.date]);
+  }, [taskObj.deadline]);
 
   //Set Task Colors
   useEffect(() => {
@@ -113,14 +115,14 @@ const Card = (props: any) => {
           {/* delete icon */}
           <i
             className="fas fa-trash-alt icon"
-            onClick={() => {deleteModal(true, taskObj.taskId)}}
+            onClick={() => {deleteModal(taskObj.taskId)}}
           ></i>
         </div>
         <div
           className="date"
           style={{position: "absolute", left: "20px", bottom: "20px" }}
         >
-          {taskObj.date}
+          {taskObj.deadline}
         </div>
       </div>
       <UpdateTask trigger={toggleUpdateModal} setTrigger={setToggleUpdateModal} updateTask={updateTask} taskObj={taskObj} />
