@@ -1,21 +1,22 @@
-import React, {useState} from 'react';
-import axios from 'axios';
-import RegisterInput from './RegisterInput'
+import React, { useState } from "react";
+import axios from "axios";
+import RegisterInput from "./RegisterInput";
 import "../css/App.css";
 
 const Register = (props: any) => {
-    
   const [values, setValues] = useState({
     firstName: "",
     lastName: "",
     userName: "",
     email: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
   });
 
   //User name errors
-  const [userNameError, setUserNameError] = useState("Must include at least 3 characters");  
+  const [userNameError, setUserNameError] = useState(
+    "Must include at least 3 characters"
+  );
 
   const [userNameErrorClass, setUserNameErrorClass] = useState("errorText");
 
@@ -27,10 +28,10 @@ const Register = (props: any) => {
       type: "text",
       placeholder: "Enter First Name",
       label: "First Name",
-      errorMessage: userNameError,
+      errorMessage:  "Can not include special chars and numbers",
       errorCSS: "errorText",
-      pattern: "^[^0-9]+$",
-      required: true
+      pattern: "^(?!.*  )(?!^ $)[A-Za-z ]+$",
+      required: true,
     },
     {
       id: 2,
@@ -41,7 +42,7 @@ const Register = (props: any) => {
       errorMessage: userNameError,
       errorCSS: userNameErrorClass,
       pattern: "^(?!\\s*$).{3,}$",
-      required: true
+      required: true,
     },
     {
       id: 3,
@@ -52,11 +53,10 @@ const Register = (props: any) => {
       errorMessage: "Must include at least 8 characters",
       errorCSS: "errorText",
       pattern: "^(?!\\s*$).{8,}$",
-      required: true ,
-    }
+      required: true,
+    },
   ];
-  
-  
+
   const inputsColumn2 = [
     {
       id: 4,
@@ -64,10 +64,10 @@ const Register = (props: any) => {
       type: "text",
       placeholder: "Enter Last Name",
       label: "Last Name",
-      errorMessage: "Can not include numbers",
+      errorMessage: "Can not include special chars and numbers",
       errorCSS: "errorText",
-      pattern: "^[^0-9]+$",
-      required: true
+      pattern: "^(?!.*  )(?!^ $)[A-Za-z ]+$",
+      required: true,
     },
     {
       id: 5,
@@ -77,7 +77,7 @@ const Register = (props: any) => {
       label: "Email",
       errorMessage: "Must be a valid address",
       errorCSS: "errorText",
-      required: true
+      required: true,
     },
     {
       id: 6,
@@ -88,27 +88,25 @@ const Register = (props: any) => {
       errorMessage: "Passwords must match",
       errorCSS: "errorText",
       pattern: values.password,
-      required: true
-    }
+      required: true,
+    },
   ];
 
   //OnChange of input fields
   const onChange = (e: React.ChangeEvent<HTMLFormElement>) => {
-    console.log(e.target.value)
-    setValues({...values, [e.target.name]: e.target.value})
+    console.log(e.target.value);
+    setValues({ ...values, [e.target.name]: e.target.value });
 
-    if(e.target.name==='userName')
-    {
-      setUserNameError('Must include at least 3 characters')
-      setUserNameErrorClass('errorText')
+    if (e.target.name === "userName") {
+      setUserNameError("Must include at least 3 characters");
+      setUserNameErrorClass("errorText");
     }
-  }
+  };
 
   //Submit
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-
     e.preventDefault();
-    console.log("form submitted")
+    console.log("form submitted");
 
     //Setting values
     const userName = values.userName;
@@ -116,53 +114,54 @@ const Register = (props: any) => {
 
     //API related
     axios
-    .post("http://localhost:3000/api/register", {
-      username: userName,
-      password: password
-    })
-    .then(response => {
-      console.log("success")
-    })
-    .catch(error => {
-      console.log("fail")
+      .post("http://localhost:3000/api/register", {
+        username: userName,
+        password: password,
+      })
+      .then((response) => {
+        console.log("success");
+      })
+      .catch((error) => {
+        console.log("fail");
 
-      //Displaying error below user name
-      setUserNameErrorClass("visibleErrorText");
-      setUserNameError("User Name Already Taken");
-      console.log(userNameError)
-    })
-  }
+        //Displaying error below user name
+        setUserNameErrorClass("visibleErrorText");
+        setUserNameError("User Name Already Taken");
+        console.log(userNameError);
+      });
+  };
 
   return (
-    <div className='App'>
-      <form className = "form" autoComplete = "off" onSubmit={handleSubmit}>
-        <div className = "heading text-info">Create your account</div>
-            
-        <div className = "register-form-container">
-          <div className = "register-form-columns">
+    <div className="App">
+      <form className="form" autoComplete="off" onSubmit={handleSubmit}>
+        <div className="heading text-info">Create your account</div>
 
+        <div className="register-form-container">
+          <div className="register-form-columns">
             {inputsColumn1.map((input) => (
-              <RegisterInput key = {input.id} {...input} onChange = {onChange}/>  
-              ))}
-          
+              <RegisterInput key={input.id} {...input} onChange={onChange} />
+            ))}
           </div>
-            
-          <div className = "register-form-columns">
-            
+
+          <div className="register-form-columns">
             {inputsColumn2.map((input) => (
-              <RegisterInput key = {input.id} {...input} onChange = {onChange}/>  
-              ))}
-          
+              <RegisterInput key={input.id} {...input} onChange={onChange} />
+            ))}
           </div>
         </div>
 
-          <button className = "bigButton bg-info" type = "submit">Sign Up</button>
-          <button className = "periButton" onClick={() => props.onFormSwitch("login")}>Already have an account? Click here to log in</button>
-          
+        <button className="bigButton bg-info" type="submit">
+          Sign Up
+        </button>
+        <button
+          className="periButton"
+          onClick={() => props.onFormSwitch("login")}
+        >
+          Already have an account? Click here to log in
+        </button>
       </form>
     </div>
-      );
-    }
-    
-    
-    export default Register;
+  );
+};
+
+export default Register;
