@@ -1,6 +1,7 @@
-import React, { ReactEventHandler, useEffect, useState } from "react";
+import React, { ReactEventHandler, useEffect, useState, useContext} from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import Task from "../Interfaces/Task";
+import {TasksContext} from "../../contexts/tasks";
 
 interface UpdateTaskProps {
   trigger: boolean;
@@ -18,7 +19,27 @@ const UpdateTask: React.FC<UpdateTaskProps> = ({
   //Set values
   const [taskName, setTaskName] = useState("");
   const [description, setDescription] = useState("");
-  const [date, setDate] = useState("");
+  const [deadline, setDeadLine] = useState("");
+
+  //Context
+  const {tasks, setTasks} = useContext(TasksContext);
+
+  //Errors useStates
+  const [taskNameError, setTaskNameError] = useState("");
+  const [descriptionError, setDescriptionError] = useState("");
+  const [deadlineError, setDeadlineError] = useState("");
+
+  //Check if task name is taken
+  useEffect(() => {
+    if (taskName && tasks.some((task) => task.taskName === taskName)) {
+      //Check if the similar name is the name of the current task (In which case it is fine)
+      if(taskName !== taskObj.taskName){
+        setTaskNameError("Task name is already taken");
+      }
+    } else {
+      setTaskNameError("");
+    }
+  }, [taskName, tasks]);
 
   //Handle change
   const handleChange = (
@@ -29,11 +50,14 @@ const UpdateTask: React.FC<UpdateTaskProps> = ({
     if (name === "taskName") {
       const trimmedValue = value.slice(0, 10)
       setTaskName(trimmedValue.replace(/^\s+/, ""));
+      setTaskNameError("");
     } else if (name === "description") {
       const trimmedValue = value.slice(0, 64)
       setDescription(trimmedValue.replace(/^\s+/, ""));
+      setDescriptionError("");
     } else if (name === "Deadline") {
-      setDate(value.replace(/^\s+/, ""));
+      setDeadLine(value.replace(/^\s+/, ""));
+      setDeadlineError("");
     }
   };
 
@@ -41,21 +65,39 @@ const UpdateTask: React.FC<UpdateTaskProps> = ({
   useEffect(() => {
     setTaskName(taskObj.taskName);
     setDescription(taskObj.description);
-    setDate(taskObj.date);
+    setDeadLine(taskObj.deadline);
   }, []);
 
   //Handle save of task
   const handleUpdate = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    let tempObj: Task = {
-      taskId: taskObj.taskId,
-      taskName: taskName,
-      description: description,
-      date: date,
-      status: taskObj.status,
-    };
-    //updateTask defined in Card
-    updateTask(tempObj);
+      //Errors
+      if (!taskName) {
+        setTaskNameError("Task name is required");
+      }
+      if (!description) {
+        setDescriptionError("Description is required");
+      }
+      if (!deadline) {
+        setDeadlineError("Deadline is required");
+      }
+    if ((taskName && description && deadline) && (!taskNameError)) {  
+      let updatedTask: Task = {
+        taskId: taskObj.taskId,
+        taskName: taskName,
+        description: description,
+        deadline: deadline,
+        status: taskObj.status,
+      };
+
+    // Update the task in the context directly
+    setTasks((tasks) =>
+    tasks.map((task) => (task.taskId === updatedTask.taskId ? updatedTask : task))
+    );
+
+      //updateTask defined in Card
+      updateTask(updatedTask);
+    }
   };
 
   return(
@@ -74,6 +116,7 @@ const UpdateTask: React.FC<UpdateTaskProps> = ({
               name="taskName"
             ></input>
              <span className = "commentText">Characters left: {10 - taskName.length}</span>
+             <div className="visibleErrorText">{taskNameError}</div>
           </div>
           <div className="form-group">
             <label>Description</label>
@@ -86,6 +129,7 @@ const UpdateTask: React.FC<UpdateTaskProps> = ({
               name="description"
             ></textarea>
               <span className = "commentText">Characters left: {64 - description.length}</span>
+              <div className="visibleErrorText">{descriptionError}</div>
           </div>
           <div className="form-group">
             <label>Deadline</label>
@@ -93,10 +137,11 @@ const UpdateTask: React.FC<UpdateTaskProps> = ({
             <input
               required
               type="date"
-              value={date}
+              value={deadline}
               onChange={handleChange}
               name="Deadline"
             ></input>
+            <div className="visibleErrorText">{deadlineError}</div>
           </div>
         </form>
       </ModalBody>

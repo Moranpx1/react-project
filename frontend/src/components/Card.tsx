@@ -44,6 +44,17 @@ const Card = (props: any) => {
     changeTaskStatus(tempObj);
   };
 
+  const changeToPrevStatus = () => {
+    let tempObj: Task = {
+      taskId: taskObj.taskId,
+      taskName: taskObj.taskName,
+      description: taskObj.description,
+      deadline: taskObj.deadline,
+      status: "base",
+    };
+    changeTaskStatus(tempObj);
+  }
+
   //Check Deadline
   useEffect(() => {
     //Define object
@@ -64,7 +75,7 @@ const Card = (props: any) => {
       }
     }
     changeTaskStatus(tempObj);
-  }, [taskObj.deadline]);
+  }, [taskObj.deadline, taskObj.status]);
 
   //Set Task Colors
   useEffect(() => {
@@ -104,7 +115,7 @@ const Card = (props: any) => {
         {/* icons */}
         <div style={{ position: "absolute", right: "20px", top: "20px" }}>
           {/* check icon */}
-          <i className="fas fa-check icon" onClick={() => handleCheck()}></i>
+          {taskObj.status !== "checked" ? <i className="fas fa-check icon" onClick={() => handleCheck()}></i> : <i className="fa-sharp fa-solid fa-rotate-left icon" onClick={() => changeToPrevStatus()}></i>}
         </div>
         <div style={{ position: "absolute", right: "20px", bottom: "20px" }}>
           {/* edit icon */}

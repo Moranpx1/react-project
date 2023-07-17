@@ -3,7 +3,7 @@ import Task from "../Interfaces/Task";
 
 const isInDeadline = (taskObj: Task) => {
   const currentDate = new Date();
-  const deadlineDate = new Date(taskObj.date);
+  const deadlineDate = new Date(taskObj.deadline);
 
   if (currentDate > deadlineDate) {
     return false;

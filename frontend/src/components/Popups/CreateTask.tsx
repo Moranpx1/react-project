@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import Task from "../Interfaces/Task";
+import { TasksContext } from "../../contexts/tasks";
 
 const CreateTask = (props: any) => {
   const trigger = props.trigger;
@@ -11,26 +12,56 @@ const CreateTask = (props: any) => {
   const [taskId, setTaskId] = useState("");
   const [taskName, setTaskName] = useState("");
   const [description, setDescription] = useState("");
-  const [date, setDate] = useState("");
+  const [deadline, setDeadLine] = useState("");
   const [status, setStatus] = useState("base");
+
+  //Context
+  const {tasks, setTasks} = useContext(TasksContext);
 
   //Generate ID
   const generateTaskId = () => {
     return Math.random().toString(36).substring(2, 15);
   };
 
+  //Errors useStates
+  const [taskNameError, setTaskNameError] = useState("");
+  const [descriptionError, setDescriptionError] = useState("");
+  const [deadlineError, setDeadlineError] = useState("");
+
+  //Check if task name is taken
+  useEffect(() => {
+    if (taskName && tasks.some((task) => task.taskName === taskName)) {
+      setTaskNameError("Task name is already taken");
+    } else {
+      setTaskNameError("");
+    }
+  }, [taskName, tasks]);
+
   //Handle save of task
-  const handleSave = () => {
-    if (taskName && description && date) {
+  const handleSave = (event: any) => {
+    event.preventDefault();
+    //Errors
+    if (!taskName) {
+      setTaskNameError("Task name is required");
+    }
+    if (!description) {
+      setDescriptionError("Description is required");
+    }
+    if (!deadline) {
+      setDeadlineError("Deadline is required");
+    }
+    if ((taskName && description && deadline) && (!taskNameError)) {
       let taskObj: Task = {
         taskId: generateTaskId(),
         taskName: taskName,
         description: description,
-        date: date,
+        deadline: deadline,
         status: status,
       };
       console.log(taskObj);
       save(taskObj);
+      //Update context
+      setTasks([...tasks, taskObj]);
       emptyInputFields();
     }
   };
@@ -44,11 +75,14 @@ const CreateTask = (props: any) => {
     if (name === "taskName") {
       const trimmedValue = value.slice(0, 10)
       setTaskName(trimmedValue.replace(/^\s+/, ""));
+      setTaskNameError("");
     } else if (name === "description") {
       const trimmedValue = value.slice(0, 64)
       setDescription(trimmedValue.replace(/^\s+/, ""));
+      setDescriptionError("");
     } else if (name === "Deadline") {
-      setDate(value.replace(/^\s+/, ""));
+      setDeadLine(value.replace(/^\s+/, ""));
+      setDeadlineError("");
     }
   };
 
@@ -56,7 +90,11 @@ const CreateTask = (props: any) => {
   const emptyInputFields = () => {
         setTaskName("");
         setDescription("");
-        setDate("");
+        setDeadLine("");
+        //Empty errors
+        setTaskNameError("");
+        setDescriptionError("");
+        setDeadlineError("");
   }
 
   return (
@@ -74,7 +112,8 @@ const CreateTask = (props: any) => {
               name="taskName"
               required
             ></input>
-            <span className = "commentText">Characters left: {10 - taskName.length}</span>
+            <div className = "commentText">Characters left: {10 - taskName.length}</div>
+            <div className="visibleErrorText">{taskNameError}</div>
           </div>
           <div className="form-group">
             <label>Description</label>
@@ -87,20 +126,22 @@ const CreateTask = (props: any) => {
               required
             ></textarea>
               <span className = "commentText">Characters left: {64 - description.length}</span>
-          </div>
+              <div className="visibleErrorText">{descriptionError}</div>
+         </div>
           <div className="form-group">
-            <label>Deadline</label>
+            <label>Deadline</label> 
             <br />
-            <input
+            <input  
               type="date"
-              value={date}
+              value={deadline}
               onChange={handleChange}
               name="Deadline"
               required
             ></input>
+            <div className="visibleErrorText">{deadlineError}</div>
           </div>
           <ModalFooter>
-            <Button type="submit" color="info text-white" onClick = {() => {handleSave()}}>
+            <Button type="submit" color="info text-white" onClick = {() => {handleSave(event)}}>
               Create
             </Button>{" "}
             <Button color="secondary" onClick = {() => {setTrigger(false); emptyInputFields()}}>

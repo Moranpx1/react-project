@@ -2,8 +2,12 @@ import React, { useState } from "react";
 import axios from "axios";
 import RegisterInput from "./RegisterInput";
 import "../css/App.css";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const Register = (props: any) => {
+  //Routing
+  const navigate = useNavigate();
+
   const [values, setValues] = useState({
     firstName: "",
     lastName: "",
@@ -119,7 +123,9 @@ const Register = (props: any) => {
         password: password,
       })
       .then((response) => {
-        console.log("success");
+        console.log("success")
+        //Route
+        navigate('/registered');
       })
       .catch((error) => {
         console.log("fail");
@@ -134,7 +140,7 @@ const Register = (props: any) => {
   return (
     <div className="App">
       <form className="form" autoComplete="off" onSubmit={handleSubmit}>
-        <div className="heading text-info">Create your account</div>
+        <div className="heading">Create your account</div>
 
         <div className="register-form-container">
           <div className="register-form-columns">
@@ -150,12 +156,12 @@ const Register = (props: any) => {
           </div>
         </div>
 
-        <button className="bigButton bg-info" type="submit">
+        <button className="bigButton" type="submit">
           Sign Up
         </button>
         <button
           className="periButton"
-          onClick={() => props.onFormSwitch("login")}
+          onClick={() => navigate('/login')}
         >
           Already have an account? Click here to log in
         </button>

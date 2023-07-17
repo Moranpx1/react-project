@@ -3,22 +3,22 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import Task from "../Interfaces/Task";
 
 const DeleteTask = (props: any) => {
-  const taskObj = props.taskObj;
-  const trigger = props.trigger;
-  const setTrigger = props.setTrigger;
-    
+  const taskId = props.taskId;
+  const setTaskId = props.setTaskId;
+  const deleteTask = props.deleteTask;
+
   return (
-    <Modal isOpen = {trigger}>
+    <Modal isOpen = {!!taskId}>
       <ModalHeader>Delete task</ModalHeader>
       <ModalBody>
         <div>
             Are you sure you want the task to be deleted?
         </div>
           <ModalFooter>
-            <Button color="info text-white" onClick={() => {setTrigger(false)}}>
+            <Button color="info text-white" onClick={() => {setTaskId(""); deleteTask(taskId)}}>
               Yes
             </Button>{" "}
-            <Button color="secondary" onClick={() => setTrigger(false)}>
+            <Button color="secondary" onClick={() => setTaskId("")}>
               No
             </Button>
           </ModalFooter>

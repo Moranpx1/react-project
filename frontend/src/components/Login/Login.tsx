@@ -1,9 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
 import LoginInput from "./LoginInputs";
 import "../css/App.css";
+import { useNavigate } from "react-router-dom";
+import { UserNameContext } from "../../contexts/userName";
 
 const Login = (props: any) => {
+  //Context
+  const {setUserName} = useContext(UserNameContext);
+  //Routing
+  const navigate = useNavigate();
+
   const [values, setValues] = useState({
     userName: "",
     password: "",
@@ -55,6 +62,10 @@ const Login = (props: any) => {
       })
       .then((response) => {
         console.log("Success");
+        //Context
+        setUserName(userName);
+        //Route to tasks page
+        navigate("/tasks");
       })
       .catch((error) => {
         console.log("Fail");
@@ -66,20 +77,20 @@ const Login = (props: any) => {
     <div className="App">
       <div className="auth-form-container">
         <form className="form" autoComplete="off" onSubmit={handleSubmit}>
-          <div className="heading text-info">Login</div>
+          <div className="heading">Login</div> 
 
           {inputs.map((input) => (
             <LoginInput key={input.id} {...input} onChange={onChange} />
           ))}
           <span className="visibleErrorText">{errorMessage}</span>
 
-          <button className="bigButton bg-info" type="submit">
+          <button className="bigButton" type="submit">
             Login
           </button>
           <button
             className="periButton"
-            onClick={() => props.onFormSwitch("register")}
-          >
+            onClick={() => navigate('/register')}
+            >
             Don't have an account? Sign Up here
           </button>
         </form>

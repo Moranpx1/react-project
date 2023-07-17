@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import "./css/App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -8,11 +8,16 @@ import NavBar from "./NavBar";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import Task from "./Interfaces/Task";
 import Card from "./Card";
+import { TasksContext } from "../contexts/tasks";
 
 const TaskList = () => {
+   //Context
+   const {setTasks} = useContext(TasksContext);
+   useEffect(()=> {setTasks(taskList)}, [])
+
   //Modals
   const [toggleCreateModal, setToggleCreateModal] = useState(false);
-  const [toggleDeleteModal, setToggleDeleteModal] = useState(false);
+  const [deleteModalTaskId, setDeleteModalTaskId] = useState("");
 
   //Set and save tasks
   const [taskList, setTaskList] = useState<Task[]>([]);
@@ -33,10 +38,6 @@ const TaskList = () => {
     console.log("Task deleted");
   };
 
-  const deleteModal = (bool: boolean) => {
-    setToggleDeleteModal(true);
-  }
-
   //Update task
   const updateListArray = (taskObj: Task) => {
     let tempList = [...taskList];
@@ -47,7 +48,6 @@ const TaskList = () => {
     });
     tempList[index] = taskObj;
 
-    //console.log(tempList[index])
     setTaskList(tempList);
     window.location.reload;
     console.log("Task list after update: " + taskList);
@@ -78,14 +78,14 @@ const TaskList = () => {
             <Card
               key={obj.taskId}
               taskObj={obj}
-              deleteModal={deleteModal}
+              deleteModal={setDeleteModalTaskId}
               updateListArray={updateListArray}
               changeTaskStatus={changeTaskStatus}
             />
           ))}
         </div>
         <CreateTask trigger={toggleCreateModal} setTrigger={setToggleCreateModal} save={saveTask} />
-        <DeleteTask trigger={toggleDeleteModal} setTrigger={setToggleDeleteModal} handleDeleteModal = {deleteModal}/>
+        <DeleteTask taskId={deleteModalTaskId} setTaskId={setDeleteModalTaskId} deleteTask = {deleteTask}/>
       </div>
       </div>
     </>

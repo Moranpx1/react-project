@@ -2,7 +2,7 @@ interface Task {
     taskId: string;
     taskName: string;
     description: string;
-    date: string;
+    deadline: string;
     status: string;
 }
 
