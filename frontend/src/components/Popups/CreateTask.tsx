@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import Task from "../Interfaces/Task";
 import { TasksContext } from "../../contexts/tasks";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const CreateTask = (props: any) => {
   const trigger = props.trigger;
@@ -12,7 +13,8 @@ const CreateTask = (props: any) => {
   const [taskId, setTaskId] = useState("");
   const [taskName, setTaskName] = useState("");
   const [description, setDescription] = useState("");
-  const [deadline, setDeadLine] = useState("");
+  const [day, setDay] = useState("");
+  const [hour, setHour] = useState("");
   const [status, setStatus] = useState("base");
 
   //Context
@@ -47,15 +49,15 @@ const CreateTask = (props: any) => {
     if (!description) {
       setDescriptionError("Description is required");
     }
-    if (!deadline) {
+    if (!day || !hour) {
       setDeadlineError("Deadline is required");
     }
-    if ((taskName && description && deadline) && (!taskNameError)) {
+    if ((taskName && description && hour && day) && (!taskNameError)) {
       let taskObj: Task = {
         taskId: generateTaskId(),
         taskName: taskName,
         description: description,
-        deadline: deadline,
+        deadline: [day, hour],
         status: status,
       };
       console.log(taskObj);
@@ -80,17 +82,22 @@ const CreateTask = (props: any) => {
       const trimmedValue = value.slice(0, 64)
       setDescription(trimmedValue.replace(/^\s+/, ""));
       setDescriptionError("");
-    } else if (name === "Deadline") {
-      setDeadLine(value.replace(/^\s+/, ""));
+    } else if (name === "day") {
+      setDay(value)
+      setDeadlineError("");
+    } else if (name === "hour") {
+      setHour(value)
       setDeadlineError("");
     }
+    
   };
 
   //Empty input fields
   const emptyInputFields = () => {
         setTaskName("");
         setDescription("");
-        setDeadLine("");
+        setDay("");
+        setHour("");
         //Empty errors
         setTaskNameError("");
         setDescriptionError("");
@@ -133,9 +140,18 @@ const CreateTask = (props: any) => {
             <br />
             <input  
               type="date"
-              value={deadline}
+              min={'2000-01-01'}
+              max={'9000-01-01'}
+              value={day}
               onChange={handleChange}
-              name="Deadline"
+              name="day"
+              required
+            ></input>
+               <input   
+              type="time"
+              value={hour}
+              onChange={handleChange}
+              name="hour"
               required
             ></input>
             <div className="visibleErrorText">{deadlineError}</div>

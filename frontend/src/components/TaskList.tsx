@@ -9,6 +9,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import Task from "./Interfaces/Task";
 import Card from "./Card";
 import { TasksContext } from "../contexts/tasks";
+import { useActionData } from "react-router-dom";
 
 const TaskList = () => {
    //Context
@@ -68,13 +69,19 @@ const TaskList = () => {
     window.location.reload;
   };
 
+  //Search Query
+  const [searchQuery, setSearchQuery] = useState('');
+
   return (
-    <>
-    <div className="taskScreen">
-      <NavBar openCreateModal={() => setToggleCreateModal(true)} />
-      <div className = "center-task-container">
+    <div className="task-screen">
+      <NavBar searchQuery = {searchQuery} setSearchQuery = {setSearchQuery} openCreateModal={() => setToggleCreateModal(true)} />
+      <div>
         <div className = "task-container">
-          {taskList.map((obj) => (
+        {taskList
+              .filter((task) =>
+                task.taskName.toLowerCase().includes(searchQuery.toLowerCase())
+              )
+              .map((obj) => (
             <Card
               key={obj.taskId}
               taskObj={obj}
@@ -87,8 +94,7 @@ const TaskList = () => {
         <CreateTask trigger={toggleCreateModal} setTrigger={setToggleCreateModal} save={saveTask} />
         <DeleteTask taskId={deleteModalTaskId} setTaskId={setDeleteModalTaskId} deleteTask = {deleteTask}/>
       </div>
-      </div>
-    </>
+    </div>
   );
 };
 

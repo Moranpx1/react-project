@@ -19,7 +19,8 @@ const UpdateTask: React.FC<UpdateTaskProps> = ({
   //Set values
   const [taskName, setTaskName] = useState("");
   const [description, setDescription] = useState("");
-  const [deadline, setDeadLine] = useState("");
+  const [day, setDay] = useState("");
+  const [hour, setHour] = useState("");
 
   //Context
   const {tasks, setTasks} = useContext(TasksContext);
@@ -55,8 +56,11 @@ const UpdateTask: React.FC<UpdateTaskProps> = ({
       const trimmedValue = value.slice(0, 64)
       setDescription(trimmedValue.replace(/^\s+/, ""));
       setDescriptionError("");
-    } else if (name === "Deadline") {
-      setDeadLine(value.replace(/^\s+/, ""));
+    } else if (name === "day") {
+      setDay(value);
+      setDeadlineError("");
+    } else if (name === "hour") {
+      setHour(value);
       setDeadlineError("");
     }
   };
@@ -65,7 +69,8 @@ const UpdateTask: React.FC<UpdateTaskProps> = ({
   useEffect(() => {
     setTaskName(taskObj.taskName);
     setDescription(taskObj.description);
-    setDeadLine(taskObj.deadline);
+    setDay(taskObj.deadline[0]);
+    setHour(taskObj.deadline[1]);
   }, []);
 
   //Handle save of task
@@ -78,15 +83,15 @@ const UpdateTask: React.FC<UpdateTaskProps> = ({
       if (!description) {
         setDescriptionError("Description is required");
       }
-      if (!deadline) {
+      if (!day || !hour) {
         setDeadlineError("Deadline is required");
       }
-    if ((taskName && description && deadline) && (!taskNameError)) {  
+    if ((taskName && description && day && hour) && (!taskNameError)) {  
       let updatedTask: Task = {
         taskId: taskObj.taskId,
         taskName: taskName,
         description: description,
-        deadline: deadline,
+        deadline: [day, hour],
         status: taskObj.status,
       };
 
@@ -137,9 +142,16 @@ const UpdateTask: React.FC<UpdateTaskProps> = ({
             <input
               required
               type="date"
-              value={deadline}
+              value={day}
               onChange={handleChange}
-              name="Deadline"
+              name="day"
+            ></input>
+            <input
+              required
+              type="time"
+              value={hour}
+              onChange={handleChange}
+              name="hour"
             ></input>
             <div className="visibleErrorText">{deadlineError}</div>
           </div>

@@ -16,19 +16,29 @@ const NavBar = (props:any) => {
       setToggleLogoutModal(true)
     }
 
+    //input field
+    const {searchQuery, setSearchQuery} = props;
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setSearchQuery(e.target.value);
+    }
+
+    //Add X in input
+    
+
+
     return (
       <>
-      <div className="navBar">
+      <div className="navBar sticky-top">
         <span className='navUser'>
           <div className = "navHello">{userName}</div>
           <i className=" fa-xl fa fa-arrow-right-from-bracket navIcon" onClick={handleLogout}></i>
         </span>
         <div className="navButton" onClick={openCreateModal}>
-          Create Task
+          Create Task 
         </div>
         <div className='navSearch'>
-          <input className="navSearch" placeholder="Search for a task..."></input>
-          <i className=" fa-xl fa fa-search search-icon navIcon"></i>
+          <input value = {searchQuery} className="navSearch" placeholder="Search for a task..." onChange ={handleChange}></input>
       </div>
       </div>
       <LogOut trigger = {toggleLogoutModal} setTrigger = {setToggleLogoutModal} userName = {userName}></LogOut>
