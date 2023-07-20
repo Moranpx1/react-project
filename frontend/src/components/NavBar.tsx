@@ -31,7 +31,7 @@ const NavBar = (props:any) => {
       <>
       <div className="navBar sticky-top">
         <span className='navUser'>
-          <div className = "navHello">{userName}</div>
+          <div className = "navHello">Hello {userName}</div>
           <i className=" fa-xl fa fa-arrow-right-from-bracket navIcon" onClick={handleLogout}></i>
         </span>
         <div className="navButton" onClick={openCreateModal}>

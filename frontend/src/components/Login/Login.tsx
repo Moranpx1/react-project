@@ -59,7 +59,11 @@ const Login = (props: any) => {
       .post("http://localhost:3000/api/login", {
         username: userName,
         password: password,
-      })
+      },
+      {
+        withCredentials: true
+      }
+      )
       .then((response) => {
         console.log("Success");
         //Context

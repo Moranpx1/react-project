@@ -12,9 +12,6 @@ import { TasksContext } from "../contexts/tasks";
 import { useActionData } from "react-router-dom";
 
 const TaskList = () => {
-   //Context
-   const {setTasks} = useContext(TasksContext);
-   useEffect(()=> {setTasks(taskList)}, [])
 
   //Modals
   const [toggleCreateModal, setToggleCreateModal] = useState(false);
@@ -22,6 +19,12 @@ const TaskList = () => {
 
   //Set and save tasks
   const [taskList, setTaskList] = useState<Task[]>([]);
+
+  //Context
+  const {tasks, setTasks} = useContext(TasksContext);
+  //set taskList is tasks context everytime it changes
+  useEffect(()=> {setTasks(taskList)}, [taskList])
+  
 
   const saveTask = (taskObj: Task) => {
     let tempList = [...taskList];
@@ -36,6 +39,7 @@ const TaskList = () => {
     //Find task by id
     const tempList = taskList.filter((task) => task.taskId !== taskId);
     setTaskList(tempList);
+
     console.log("Task deleted");
   };
 

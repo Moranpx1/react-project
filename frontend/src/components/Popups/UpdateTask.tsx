@@ -142,6 +142,8 @@ const UpdateTask: React.FC<UpdateTaskProps> = ({
             <input
               required
               type="date"
+              min={'2000-01-01'}
+              max={'9000-01-01'}
               value={day}
               onChange={handleChange}
               name="day"

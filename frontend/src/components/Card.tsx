@@ -3,6 +3,7 @@ import Task from "./Interfaces/Task";
 import UpdateTask from "./Popups/UpdateTask";
 import DeleteTask from "./Popups/DeleteTask";
 import isInDeadLine from "./Functions/isInDeadline";
+import reverseDateString from "./Functions/reverseDateString";
 
 
 //Colors
@@ -108,10 +109,14 @@ const Card = (props: any) => {
       setMakeInvisible("");
     }
     if (taskObj.status != "checked") {
-      if (!isInDeadLine(taskObj) && taskObj.status!="irrelevant") {
-        console.log("alert");
-        tempObj.status = "alert";
-      }
+      if(taskObj.status!="irrelevant") {
+        if(!isInDeadLine(taskObj)){
+          tempObj.status = "alert";
+        }
+        else {
+          tempObj.status = "base";  
+        }
+      } 
     }
     changeTaskStatus(tempObj);
   }, [taskObj.deadline, taskObj.status, currentTime]);
@@ -179,7 +184,7 @@ const Card = (props: any) => {
           className="date"
           style={{position: "absolute", left: "1em", bottom: "20px" }}
         >
-          {taskObj.deadline[0]}
+          {reverseDateString(taskObj.deadline[0])}
         </div>
         <div
           className="date"
