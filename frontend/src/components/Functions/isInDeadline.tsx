@@ -3,16 +3,25 @@ import Task from "../Interfaces/Task";
 
 const isInDeadline = (taskObj: Task) => {
   const currentDate = new Date();
-  const currentDateString = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1)
-    .toString()
-    .padStart(2, "0")}-${currentDate.getDate().toString().padStart(2, "0")} ${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
 
-  const deadlineDateString = `${taskObj.deadline[0]} ${taskObj.deadline[1]}`;
+  const currentHours = currentDate.getHours();
+  const currentMinutes = currentDate.getMinutes();
+  const currentSeconds = currentDate.getSeconds();
 
-  if (Date.parse(currentDateString) > Date.parse(deadlineDateString)) {
+  const deadline = taskObj.end_time;
+
+  const [deadlineHours, deadlineMinutes, deadlineSeconds] = deadline.split(":");
+
+  const deadlineInSeconds =
+    parseInt(deadlineHours) * 3600 +
+    parseInt(deadlineMinutes) * 60 +
+    parseInt(deadlineSeconds);
+  const currentInSeconds =
+    currentHours * 3600 + currentMinutes * 60 + currentSeconds;
+
+  if (currentInSeconds > deadlineInSeconds) {
     return false;
   }
-
   return true;
 };
 

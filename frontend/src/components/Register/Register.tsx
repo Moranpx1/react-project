@@ -32,7 +32,7 @@ const Register = (props: any) => {
       type: "text",
       placeholder: "Enter First Name",
       label: "First Name",
-      errorMessage:  "Can not include special chars and numbers",
+      errorMessage: "Can not include special chars and numbers",
       errorCSS: "errorText",
       pattern: "^(?!.*  )(?!^ $)[A-Za-z ]+$",
       required: true,
@@ -123,9 +123,9 @@ const Register = (props: any) => {
         password: password,
       })
       .then((response) => {
-        console.log("success")
+        console.log("success");
         //Route
-        navigate('/registered');
+        navigate("/registered");
       })
       .catch((error) => {
         console.log("fail");
@@ -159,10 +159,7 @@ const Register = (props: any) => {
         <button className="bigButton" type="submit">
           Sign Up
         </button>
-        <button
-          className="periButton"
-          onClick={() => navigate('/login')}
-        >
+        <button className="periButton" onClick={() => navigate("/login")}>
           Already have an account? Click here to log in
         </button>
       </form>

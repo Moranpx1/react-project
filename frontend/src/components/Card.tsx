@@ -5,7 +5,6 @@ import DeleteTask from "./Popups/DeleteTask";
 import isInDeadLine from "./Functions/isInDeadline";
 import reverseDateString from "./Functions/reverseDateString";
 
-
 //Colors
 const baseColor = {
   primary: "#91b5c2",
@@ -24,8 +23,8 @@ const checkColor = {
 
 const irrelevantColor = {
   primary: "#D3D3D3",
-  secondary: "#F5F5F5"
-}
+  secondary: "#F5F5F5",
+};
 
 const Card = (props: any) => {
   const taskObj = props.taskObj;
@@ -42,42 +41,41 @@ const Card = (props: any) => {
   //handle check
   const handleCheck = () => {
     let tempObj: Task = {
-      taskId: taskObj.taskId,
-      taskName: taskObj.taskName,
+      task_id: taskObj.task_id,
+      task: taskObj.task,
       description: taskObj.description,
-      deadline: taskObj.deadline,
+      end_time: taskObj.end_time,
       status: "checked",
     };
     changeTaskStatus(tempObj);
   };
 
-  
   //Change opacity based on relevance of task
-  const [makeInvisible, setMakeInvisible] = useState("")
+  const [makeInvisible, setMakeInvisible] = useState("");
 
   //handle check
   const handleIrrelevant = () => {
     let tempObj: Task = {
-      taskId: taskObj.taskId,
-      taskName: taskObj.taskName,
+      task_id: taskObj.task_id,
+      task: taskObj.task,
       description: taskObj.description,
-      deadline: taskObj.deadline,
+      end_time: taskObj.end_time,
       status: "irrelevant",
     };
-    setMakeInvisible("makeInvisible")
+    setMakeInvisible("makeInvisible");
     changeTaskStatus(tempObj);
   };
 
   const changeToBaseStatus = () => {
     let tempObj: Task = {
-      taskId: taskObj.taskId,
-      taskName: taskObj.taskName,
+      task_id: taskObj.task_id,
+      task: taskObj.task,
       description: taskObj.description,
-      deadline: taskObj.deadline,
+      end_time: taskObj.end_time,
       status: "base",
     };
     changeTaskStatus(tempObj);
-  }
+  };
 
   //Current time handle
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -93,33 +91,31 @@ const Card = (props: any) => {
     return () => clearInterval(intervalId);
   }, []);
 
-
   //Check Deadline
   useEffect(() => {
     //Define object
     let tempObj: Task = {
-      taskId: taskObj.taskId,
-      taskName: taskObj.taskName,
+      task_id: taskObj.task_id,
+      task: taskObj.task,
       description: taskObj.description,
-      deadline: taskObj.deadline,
+      end_time: taskObj.end_time,
       status: taskObj.status,
     };
     //Make card transparent if irrelevant
-    if(taskObj.status != "irrelevant"){
+    if (taskObj.status != "irrelevant") {
       setMakeInvisible("");
     }
     if (taskObj.status != "checked") {
-      if(taskObj.status!="irrelevant") {
-        if(!isInDeadLine(taskObj)){
+      if (taskObj.status != "irrelevant") {
+        if (!isInDeadLine(taskObj)) {
           tempObj.status = "alert";
+        } else {
+          tempObj.status = "base";
         }
-        else {
-          tempObj.status = "base";  
-        }
-      } 
+      }
     }
     changeTaskStatus(tempObj);
-  }, [taskObj.deadline, taskObj.status, currentTime]);
+  }, [taskObj.end_time, taskObj.status, currentTime]);
 
   //Set Task Colors
   useEffect(() => {
@@ -152,21 +148,38 @@ const Card = (props: any) => {
       ></div>
       <div className="task-holder">
         <span
-          className={'card-header'}
+          className={"card-header"}
           style={{ backgroundColor: color.secondary, borderRadius: "10px" }}
         >
-          {taskObj.taskName}
+          {taskObj.task}
         </span>
         <p className="mt-3">{taskObj.description}</p>
 
         {/* icons */}
         <div style={{ position: "absolute", right: "20px", top: "20px" }}>
           {/* check icon */}
-          {taskObj.status !== "checked" ? <i className="fas fa-check icon" onClick={() => handleCheck()}></i> : <i className="fa-sharp fa-solid fa-rotate-left icon" onClick={() => changeToBaseStatus()}></i>}
+          {taskObj.status !== "checked" ? (
+            <i className="fas fa-check icon" onClick={() => handleCheck()}></i>
+          ) : (
+            <i
+              className="fa-sharp fa-solid fa-rotate-left icon"
+              onClick={() => changeToBaseStatus()}
+            ></i>
+          )}
         </div>
         <div style={{ position: "absolute", right: "20px", top: "50px" }}>
           {/* eye icon */}
-          {taskObj.status !== "irrelevant" ? <i className="fas fa-eye-slash icon" onClick={() => handleIrrelevant()}></i> : <i className="fas fa-eye icon" onClick={() => changeToBaseStatus()}></i>}
+          {taskObj.status !== "irrelevant" ? (
+            <i
+              className="fas fa-eye-slash icon"
+              onClick={() => handleIrrelevant()}
+            ></i>
+          ) : (
+            <i
+              className="fas fa-eye icon"
+              onClick={() => changeToBaseStatus()}
+            ></i>
+          )}
         </div>
         <div style={{ position: "absolute", right: "20px", bottom: "20px" }}>
           {/* edit icon */}
@@ -177,23 +190,24 @@ const Card = (props: any) => {
           {/* delete icon */}
           <i
             className="fas fa-trash-alt icon"
-            onClick={() => {deleteModal(taskObj.taskId)}}
+            onClick={() => {
+              deleteModal(taskObj.task_id);
+            }}
           ></i>
         </div>
         <div
           className="date"
-          style={{position: "absolute", left: "1em", bottom: "20px" }}
+          style={{ position: "absolute", left: "1em", bottom: "20px" }}
         >
-          {reverseDateString(taskObj.deadline[0])}
-        </div>
-        <div
-          className="date"
-          style={{position: "absolute", left: "7em", bottom: "20px"}}
-        >
-          {taskObj.deadline[1]}
+          {taskObj.end_time}
         </div>
       </div>
-      <UpdateTask trigger={toggleUpdateModal} setTrigger={setToggleUpdateModal} updateTask={updateTask} taskObj={taskObj} />
+      <UpdateTask
+        trigger={toggleUpdateModal}
+        setTrigger={setToggleUpdateModal}
+        updateTask={updateTask}
+        taskObj={taskObj}
+      />
     </div>
   );
 };

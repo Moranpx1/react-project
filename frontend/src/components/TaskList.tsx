@@ -9,94 +9,103 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import Task from "./Interfaces/Task";
 import Card from "./Card";
 import { TasksContext } from "../contexts/tasks";
-import { useActionData } from "react-router-dom";
+import { UserNameContext } from "../contexts/userName";
+import { UserIdContext } from "../contexts/userId";
 
 const TaskList = () => {
-
-  //Modals
+  // Modals
   const [toggleCreateModal, setToggleCreateModal] = useState(false);
   const [deleteModalTaskId, setDeleteModalTaskId] = useState("");
 
-  //Set and save tasks
-  const [taskList, setTaskList] = useState<Task[]>([]);
-
   //Context
-  const {tasks, setTasks} = useContext(TasksContext);
-  //set taskList is tasks context everytime it changes
-  useEffect(()=> {setTasks(taskList)}, [taskList])
-  
+  const { tasks, setTasks } = useContext(TasksContext);
+  const { userName } = useContext(UserNameContext);
 
+  // Fetch tasks for a specific user using Axios
+  useEffect(() => {
+    const fetchUserTasks = async () => {
+      try {
+        const authToken = userName;
+
+        const response = await axios.get(`http://localhost:3000/api/users/${userName}/tasks`, {
+          
+          withCredentials: true,
+        });
+        setTasks(response.data.tasks);
+      } catch (error) {
+        console.error("Error fetching user's tasks:", error);
+      }
+    };
+    fetchUserTasks();
+  }, []);
+
+  //Search Query
+  const [searchQuery, setSearchQuery] = useState("");
+
+  //Open Create Task Modal
+  const openCreateModal = () => {
+    setToggleCreateModal(true);
+  };
+
+  // Save Task
   const saveTask = (taskObj: Task) => {
-    let tempList = [...taskList];
-    tempList.push(taskObj);
-    setTaskList(tempList);
-    //Close modal
+    const newTask = { ...taskObj };
+    setTasks((prevTasks) => [...prevTasks, newTask]);
     setToggleCreateModal(false);
   };
 
-  //Delete task
+  // Delete Task
   const deleteTask = (taskId: string) => {
-    //Find task by id
-    const tempList = taskList.filter((task) => task.taskId !== taskId);
-    setTaskList(tempList);
-
-    console.log("Task deleted");
+    setTasks((prevTasks) => prevTasks.filter((task) => task.task_id !== taskId));
   };
 
-  //Update task
+  // Update Task
   const updateListArray = (taskObj: Task) => {
-    let tempList = [...taskList];
-
-    //Find index of on object
-    const index = tempList.findIndex((obj) => {
-      return obj.taskId === taskObj.taskId;
-    });
-    tempList[index] = taskObj;
-
-    setTaskList(tempList);
-    window.location.reload;
-    console.log("Task list after update: " + taskList);
+    setTasks((prevTasks) =>
+      prevTasks.map((task) => (task.task_id === taskObj.task_id ? taskObj : task))
+    );
   };
 
-  //Change status of task
+  // Change Task Status
   const changeTaskStatus = (taskObj: Task) => {
-    let tempList = [...taskList];
-
-    //Find index of on objectd
-    const index = tempList.findIndex((obj) => {
-      return obj.taskId === taskObj.taskId;
-    });
-    tempList[index] = taskObj;
-
-    //console.log(tempList[index])
-    setTaskList(tempList);
-    window.location.reload;
+    setTasks((prevTasks) =>
+      prevTasks.map((task) => (task.task_id === taskObj.task_id ? taskObj : task))
+    );
   };
-
-  //Search Query
-  const [searchQuery, setSearchQuery] = useState('');
 
   return (
     <div className="task-screen">
-      <NavBar searchQuery = {searchQuery} setSearchQuery = {setSearchQuery} openCreateModal={() => setToggleCreateModal(true)} />
+      <NavBar
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        openCreateModal={openCreateModal}
+      />
       <div>
-        <div className = "task-container">
-        {taskList
-              .filter((task) =>
-                task.taskName.toLowerCase().includes(searchQuery.toLowerCase())
-              )
-              .map((obj) => (
-            <Card
-              key={obj.taskId}
-              taskObj={obj}
-              deleteModal={setDeleteModalTaskId}
-              updateListArray={updateListArray}
-              changeTaskStatus={changeTaskStatus}
-            />
-          ))}
+        <div className="task-container">
+          {tasks
+            .filter((task) =>
+              task.task.toLowerCase().includes(searchQuery.toLowerCase())
+            )
+            .map((task) => (
+              <Card
+                key={task.task}
+                taskObj={task}
+                deleteModal={setDeleteModalTaskId}
+                updateListArray={updateListArray}
+                changeTaskStatus={changeTaskStatus}
+              />
+            ))}
         </div>
-        <CreateTask trigger={toggleCreateModal} setTrigger={setToggleCreateModal} save={saveTask} />
-        <DeleteTask taskId={deleteModalTaskId} setTaskId={setDeleteModalTaskId} deleteTask = {deleteTask}/>
+        <CreateTask
+          trigger={toggleCreateModal}
+          setTrigger={setToggleCreateModal}
+          save={saveTask}
+        />
+        <DeleteTask
+          taskId={deleteModalTaskId}
+          setTaskId={setDeleteModalTaskId}
+          deleteTask={deleteTask}
+        />
       </div>
     </div>
   );

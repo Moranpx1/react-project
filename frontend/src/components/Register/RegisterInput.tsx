@@ -1,5 +1,5 @@
 const RegisterInput = (props: any) => {
-  const {errorCSS, label, onChange, id, errorMessage, ...inputProps } = props;
+  const { errorCSS, label, onChange, id, errorMessage, ...inputProps } = props;
 
   return (
     <>

@@ -306,7 +306,7 @@
                   "status": {
                     "type": "string"
                   },
-                  "endtime": {
+                  "end_time": {
                     "type": "string"
                   }
                 }

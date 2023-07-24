@@ -4,10 +4,13 @@ import LoginInput from "./LoginInputs";
 import "../css/App.css";
 import { useNavigate } from "react-router-dom";
 import { UserNameContext } from "../../contexts/userName";
+import { UserIdContext } from "../../contexts/userId";
 
 const Login = (props: any) => {
   //Context
-  const {setUserName} = useContext(UserNameContext);
+  const { setUserName } = useContext(UserNameContext);
+  const { setUserId } = useContext(UserIdContext);
+
   //Routing
   const navigate = useNavigate();
 
@@ -56,18 +59,21 @@ const Login = (props: any) => {
 
     //API related
     axios
-      .post("http://localhost:3000/api/login", {
-        username: userName,
-        password: password,
-      },
-      {
-        withCredentials: true
-      }
+      .post(
+        "http://localhost:3000/api/login",
+        {
+          username: userName,
+          password: password,
+        },
+        {
+          withCredentials: true,
+        }
       )
       .then((response) => {
         console.log("Success");
         //Context
         setUserName(userName);
+        setUserId(response.data.username);
         //Route to tasks page
         navigate("/tasks");
       })
@@ -81,7 +87,7 @@ const Login = (props: any) => {
     <div className="App">
       <div className="auth-form-container">
         <form className="form" autoComplete="off" onSubmit={handleSubmit}>
-          <div className="heading">Login</div> 
+          <div className="heading">Login</div>
 
           {inputs.map((input) => (
             <LoginInput key={input.id} {...input} onChange={onChange} />
@@ -91,10 +97,7 @@ const Login = (props: any) => {
           <button className="bigButton" type="submit">
             Login
           </button>
-          <button
-            className="periButton"
-            onClick={() => navigate('/register')}
-            >
+          <button className="periButton" onClick={() => navigate("/register")}>
             Don't have an account? Sign Up here
           </button>
         </form>

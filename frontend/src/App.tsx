@@ -5,26 +5,25 @@ import Registered from "./components/Register/Registered";
 import TaskList from "./components/TaskList";
 import NavBar from "./components/NavBar";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { BrowserRouter as Router, Route, Link, Routes} from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 //context
 import { UserNameContext, UserNameProvider } from "./contexts/userName";
-import { TasksContext, TasksProvider} from "./contexts/tasks";
+import { TasksContext, TasksProvider } from "./contexts/tasks";
 
 const App = () => {
-
   return (
     <TasksProvider>
-    <UserNameProvider>
-      <Router>
-        <Routes>
-          <Route path = "/" Component={Login}></Route>
-          <Route path = "/login" Component={Login}></Route>
-          <Route path = "/register" Component={Register}></Route>
-          <Route path = "/registered" Component={Registered}></Route>
-          <Route path = "/tasks" Component={TaskList}></Route>
-        </Routes>
-      </Router>
-    </UserNameProvider>
+      <UserNameProvider>
+        <Router>
+          <Routes>
+            <Route path="/" Component={Login}></Route>
+            <Route path="/login" Component={Login}></Route>
+            <Route path="/register" Component={Register}></Route>
+            <Route path="/registered" Component={Registered}></Route>
+            <Route path="/tasks" Component={TaskList}></Route>
+          </Routes>
+        </Router>
+      </UserNameProvider>
     </TasksProvider>
   );
 };
