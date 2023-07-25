@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
+import logoutApi from "../../Functions/API/logoutApi";
 
 const LogOut = (props: any) => {
   //Routing
@@ -12,14 +13,7 @@ const LogOut = (props: any) => {
   const userName = props.userName;
 
   const logOut = () => {
-    axios
-      .post(
-        "http://localhost:3000/api/logout",
-        {},
-        {
-          withCredentials: true,
-        }
-      )
+    logoutApi()
       .then((response) => {
         console.log("success");
         navigate("/login");

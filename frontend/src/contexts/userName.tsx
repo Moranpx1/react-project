@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useEffect } from "react";
 
 interface UserNameContextType {
   userName: string;
@@ -19,7 +19,16 @@ interface UserNameProviderProps {
 }
 
 const UserNameProvider: React.FC<UserNameProviderProps> = ({ children }) => {
-  const [userName, setUserName] = useState<string>("");
+  const [userName, setUserName] = useState<string>(() => {
+    // Get the stored userName from sessionStorage on component mount
+    const storedUserName = sessionStorage.getItem("userName");
+    return storedUserName || "";
+  });
+
+  useEffect(() => {
+    // Save the userName to sessionStorage
+    sessionStorage.setItem("userName", userName);
+  }, [userName]);
 
   return (
     <UserNameContext.Provider value={{ userName, setUserName }}>

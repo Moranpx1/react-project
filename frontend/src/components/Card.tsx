@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import Task from "./Interfaces/Task";
+import Task from "../Interfaces/Task";
 import UpdateTask from "./Popups/UpdateTask";
 import DeleteTask from "./Popups/DeleteTask";
-import isInDeadLine from "./Functions/isInDeadline";
-import reverseDateString from "./Functions/reverseDateString";
+import isInDeadLine from "../Functions/isInDeadline";
 
 //Colors
 const baseColor = {
@@ -37,6 +36,8 @@ const Card = (props: any) => {
 
   //Initialize card with base color
   const [color, setColor] = useState(baseColor);
+
+
 
   //handle check
   const handleCheck = () => {

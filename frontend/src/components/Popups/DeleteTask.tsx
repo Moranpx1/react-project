@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import Task from "../Interfaces/Task";
-import axios from "axios";
+import Task from "../../Interfaces/Task";
+import deleteTaskApi from "../../Functions/API/deleteTaskApi";
 
 const DeleteTask = (props: any) => {
   const taskId = props.taskId;
@@ -11,13 +11,7 @@ const DeleteTask = (props: any) => {
   const handleDelete = (taskId: string) => {
 
     //API
-    axios
-    .delete(
-      `http://localhost:3000/api/tasks/${taskId}`,
-      {
-        withCredentials: true,
-      }
-    )
+    deleteTaskApi(taskId)
     .then(() => {
         setTaskId("");
         deleteTask(taskId);

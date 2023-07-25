@@ -1,18 +1,18 @@
 import React, { useState, useContext, useEffect } from "react";
-import axios from "axios";
-import "./css/App.css";
+import "../assets/css/App.css"
 import "bootstrap/dist/css/bootstrap.min.css";
 import CreateTask from "./Popups/CreateTask";
 import DeleteTask from "./Popups/DeleteTask";
 import NavBar from "./NavBar";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import Task from "./Interfaces/Task";
+import Task from "../Interfaces/Task";
 import Card from "./Card";
 import { TasksContext } from "../contexts/tasks";
 import { UserNameContext } from "../contexts/userName";
-import { UserIdContext } from "../contexts/userId";
+import updateTaskApi from "../Functions/API/updateTaskApi";
+import getTasksApi from "../Functions/API/getTasksApi";
 
 const TaskList = () => {
+
   // Modals
   const [toggleCreateModal, setToggleCreateModal] = useState(false);
   const [deleteModalTaskId, setDeleteModalTaskId] = useState("");
@@ -21,16 +21,23 @@ const TaskList = () => {
   const { tasks, setTasks } = useContext(TasksContext);
   const { userName } = useContext(UserNameContext);
 
+  //Search Query
+  const [searchQuery, setSearchQuery] = useState("");
+
+  //Filter tasks
+  const [filteredTasks, setFilteredTasks] = useState(tasks)
+
+  useEffect(() => {
+    const filtered = tasks.filter((task) =>
+      task.task.toLowerCase().includes(searchQuery.toLowerCase()))
+    setFilteredTasks(filtered)
+  }, [searchQuery])
+
   // Fetch tasks for a specific user using Axios
   useEffect(() => {
     const fetchUserTasks = async () => {
       try {
-        const authToken = userName;
-
-        const response = await axios.get(`http://localhost:3000/api/users/${userName}/tasks`, {
-          
-          withCredentials: true,
-        });
+        const response = await getTasksApi(userName)
         setTasks(response.data.tasks);
       } catch (error) {
         console.error("Error fetching user's tasks:", error);
@@ -39,8 +46,6 @@ const TaskList = () => {
     fetchUserTasks();
   }, []);
 
-  //Search Query
-  const [searchQuery, setSearchQuery] = useState("");
 
   //Open Create Task Modal
   const openCreateModal = () => {
@@ -56,21 +61,24 @@ const TaskList = () => {
 
   // Delete Task
   const deleteTask = (taskId: string) => {
-    setTasks((prevTasks) => prevTasks.filter((task) => task.task_id !== taskId));
+    setTasks((prevTasks) =>
+      prevTasks.filter((task) => task.task_id !== taskId)
+    );
   };
 
-  // Update Task
+  //Update List Array
   const updateListArray = (taskObj: Task) => {
     setTasks((prevTasks) =>
       prevTasks.map((task) => (task.task_id === taskObj.task_id ? taskObj : task))
     );
   };
+  
 
   // Change Task Status
   const changeTaskStatus = (taskObj: Task) => {
-    setTasks((prevTasks) =>
-      prevTasks.map((task) => (task.task_id === taskObj.task_id ? taskObj : task))
-    );
+    updateListArray(taskObj)
+    //API
+    updateTaskApi(taskObj)
   };
 
   return (
@@ -82,19 +90,26 @@ const TaskList = () => {
       />
       <div>
         <div className="task-container">
-          {tasks
-            .filter((task) =>
-              task.task.toLowerCase().includes(searchQuery.toLowerCase())
-            )
-            .map((task) => (
+
+          {searchQuery != "" ? 
+            (filteredTasks.map((task) => (
               <Card
                 key={task.task}
                 taskObj={task}
                 deleteModal={setDeleteModalTaskId}
                 updateListArray={updateListArray}
                 changeTaskStatus={changeTaskStatus}
-              />
-            ))}
+              />))) :  
+              (tasks.map((task) => (
+                <Card
+                  key={task.task}
+                  taskObj={task}
+                  deleteModal={setDeleteModalTaskId}
+                  updateListArray={updateListArray}
+                  changeTaskStatus={changeTaskStatus}
+                />)))
+            }
+            
         </div>
         <CreateTask
           trigger={toggleCreateModal}

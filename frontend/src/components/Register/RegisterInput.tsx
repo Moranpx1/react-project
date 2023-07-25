@@ -1,10 +1,10 @@
 const RegisterInput = (props: any) => {
-  const { errorCSS, label, onChange, id, errorMessage, ...inputProps } = props;
+  const { errorCSS, label, onChange, errorMessage, ...inputProps } = props;
 
   return (
     <>
-      <label htmlFor={id}>{label}</label>
-      <input {...inputProps} id={id} onChange={onChange} />
+      <label>{label}</label>
+      <input required {...inputProps} onChange={onChange} />
       <span className={errorCSS}>{errorMessage}</span>
     </>
   );

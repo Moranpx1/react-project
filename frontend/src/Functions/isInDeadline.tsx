@@ -1,5 +1,6 @@
 import React from "react";
 import Task from "../Interfaces/Task";
+import timeToSeconds from "./timeToSeconds";
 
 const isInDeadline = (taskObj: Task) => {
   const currentDate = new Date();
@@ -12,17 +13,11 @@ const isInDeadline = (taskObj: Task) => {
 
   const [deadlineHours, deadlineMinutes, deadlineSeconds] = deadline.split(":");
 
-  const deadlineInSeconds =
-    parseInt(deadlineHours) * 3600 +
-    parseInt(deadlineMinutes) * 60 +
-    parseInt(deadlineSeconds);
-  const currentInSeconds =
-    currentHours * 3600 + currentMinutes * 60 + currentSeconds;
+  const deadlineInSeconds = timeToSeconds(parseInt(deadlineHours), parseInt(deadlineMinutes), parseInt(deadlineSeconds))
 
-  if (currentInSeconds > deadlineInSeconds) {
-    return false;
-  }
-  return true;
+  const currentInSeconds = timeToSeconds(currentHours, currentMinutes, currentSeconds);
+
+  return(!(currentInSeconds > deadlineInSeconds))
 };
 
 export default isInDeadline;

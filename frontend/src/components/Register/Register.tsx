@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import axios from "axios";
 import RegisterInput from "./RegisterInput";
-import "../css/App.css";
 import { Navigate, useNavigate } from "react-router-dom";
+import registerApi from "../../Functions/API/registerApi";
 
 const Register = (props: any) => {
   //Routing
@@ -24,77 +23,77 @@ const Register = (props: any) => {
 
   const [userNameErrorClass, setUserNameErrorClass] = useState("errorText");
 
-  //Define attributes of inputs
-  const inputsColumn1 = [
-    {
-      id: 1,
-      name: "firstName",
-      type: "text",
-      placeholder: "Enter First Name",
-      label: "First Name",
-      errorMessage: "Can not include special chars and numbers",
-      errorCSS: "errorText",
-      pattern: "^(?!.*  )(?!^ $)[A-Za-z ]+$",
-      required: true,
-    },
-    {
-      id: 2,
-      name: "userName",
-      type: "text",
-      placeholder: "Enter User Name",
-      label: "User Name",
-      errorMessage: userNameError,
-      errorCSS: userNameErrorClass,
-      pattern: "^(?!\\s*$).{3,}$",
-      required: true,
-    },
-    {
-      id: 3,
-      name: "password",
-      type: "password",
-      placeholder: "Enter Password",
-      label: "Password",
-      errorMessage: "Must include at least 8 characters",
-      errorCSS: "errorText",
-      pattern: "^(?!\\s*$).{8,}$",
-      required: true,
-    },
-  ];
+  // //Define attributes of inputs
+  // const inputsColumn1 = [
+  //   {
+  //     id: 1,
+  //     name: "firstName",
+  //     type: "text",
+  //     placeholder: "Enter First Name",
+  //     label: "First Name",
+  //     errorMessage: "Can not include special chars and numbers",
+  //     errorCSS: "errorText",
+  //     pattern: "^(?!.*  )(?!^ $)[A-Za-z ]+$",
+  //     required: true,
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "userName",
+  //     type: "text",
+  //     placeholder: "Enter User Name",
+  //     label: "User Name",
+  //     errorMessage: userNameError,
+  //     errorCSS: userNameErrorClass,
+  //     pattern: "^(?!\\s*$).{3,}$",
+  //     required: true,
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "password",
+  //     type: "password",
+  //     placeholder: "Enter Password",
+  //     label: "Password",
+  //     errorMessage: "Must include at least 8 characters",
+  //     errorCSS: "errorText",
+  //     pattern: "^(?!\\s*$).{8,}$",
+  //     required: true,
+  //   },
+  // ];
 
-  const inputsColumn2 = [
-    {
-      id: 4,
-      name: "lastName",
-      type: "text",
-      placeholder: "Enter Last Name",
-      label: "Last Name",
-      errorMessage: "Can not include special chars and numbers",
-      errorCSS: "errorText",
-      pattern: "^(?!.*  )(?!^ $)[A-Za-z ]+$",
-      required: true,
-    },
-    {
-      id: 5,
-      name: "email",
-      type: "email",
-      placeholder: "Enter Email",
-      label: "Email",
-      errorMessage: "Must be a valid address",
-      errorCSS: "errorText",
-      required: true,
-    },
-    {
-      id: 6,
-      name: "confirmPassword",
-      type: "password",
-      placeholder: "Repeat Password",
-      label: "Confirm Password",
-      errorMessage: "Passwords must match",
-      errorCSS: "errorText",
-      pattern: values.password,
-      required: true,
-    },
-  ];
+  // const inputsColumn2 = [
+  //   {
+  //     id: 4,
+  //     name: "lastName",
+  //     type: "text",
+  //     placeholder: "Enter Last Name",
+  //     label: "Last Name",
+  //     errorMessage: "Can not include special chars and numbers",
+  //     errorCSS: "errorText",
+  //     pattern: "^(?!.*  )(?!^ $)[A-Za-z ]+$",
+  //     required: true,
+  //   },
+  //   {
+  //     id: 5,
+  //     name: "email",
+  //     type: "email",
+  //     placeholder: "Enter Email",
+  //     label: "Email",
+  //     errorMessage: "Must be a valid address",
+  //     errorCSS: "errorText",
+  //     required: true,
+  //   },
+  //   {
+  //     id: 6,
+  //     name: "confirmPassword",
+  //     type: "password",
+  //     placeholder: "Repeat Password",
+  //     label: "Confirm Password",
+  //     errorMessage: "Passwords must match",
+  //     errorCSS: "errorText",
+  //     pattern: values.password,
+  //     required: true,
+  //   },
+  // ];
 
   //OnChange of input fields
   const onChange = (e: React.ChangeEvent<HTMLFormElement>) => {
@@ -117,23 +116,19 @@ const Register = (props: any) => {
     const password = values.password;
 
     //API related
-    axios
-      .post("http://localhost:3000/api/register", {
-        username: userName,
-        password: password,
-      })
+    registerApi(userName, password)
       .then((response) => {
         console.log("success");
         //Route
         navigate("/registered");
       })
       .catch((error) => {
-        console.log("fail");
+        console.log("failed to register user");
 
         //Displaying error below user name
         setUserNameErrorClass("visibleErrorText");
         setUserNameError("User Name Already Taken");
-        console.log(userNameError);
+
       });
   };
 
@@ -144,15 +139,68 @@ const Register = (props: any) => {
 
         <div className="register-form-container">
           <div className="register-form-columns">
-            {inputsColumn1.map((input) => (
-              <RegisterInput key={input.id} {...input} onChange={onChange} />
-            ))}
+            <RegisterInput
+              name="firstName"
+              type="text"
+              placeholder="Enter First Name"
+              label="First Name"
+              errorMessage="Can not include special chars and numbers"
+              errorCSS="errorText"
+              pattern="^(?!.*  )(?!^ $)[A-Za-z ]+$"
+              onChange={onChange}
+            />
+            <RegisterInput
+              name="userName"
+              type="text"
+              placeholder="Enter User Name"
+              label="User Name"
+              errorMessage = {userNameError}
+              errorCSS= {userNameErrorClass}
+              pattern="^(?!\\s*$).{3,}$"
+              onChange={onChange}
+            />
+            <RegisterInput
+              name="password"
+              type="password"
+              placeholder="Enter Password"
+              label="Password"
+              errorMessage = "Must include at least 8 characters"
+              errorCSS="errorText"
+              pattern="^(?!\\s*$).{8,}$"
+              onChange={onChange}
+            />
           </div>
 
           <div className="register-form-columns">
-            {inputsColumn2.map((input) => (
-              <RegisterInput key={input.id} {...input} onChange={onChange} />
-            ))}
+          <RegisterInput
+              name="lastname"
+              type="text"
+              placeholder="Enter Last Name"
+              label="Last Name"
+              errorMessage = "Can not include special chars and numbers"
+              errorCSS="errorText"
+              pattern="^(?!.*  )(?!^ $)[A-Za-z ]+$"
+              onChange={onChange}
+            />
+            <RegisterInput
+              name="email"
+              type="email"
+              placeholder="Enter Email"
+              label="Email"
+              errorMessage = "Must be valid address"
+              errorCSS="errorText"
+              onChange={onChange}
+            />
+            <RegisterInput
+              name="confirmPassword"
+              type="password"
+              placeholder="Repeat Password"
+              label="Confirm Password"
+              errorMessage = "Passwords must match"
+              errorCSS="errorText"
+              pattern={values.password}
+              onChange={onChange}
+            />
           </div>
         </div>
 

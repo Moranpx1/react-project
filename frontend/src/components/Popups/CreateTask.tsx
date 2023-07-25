@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import Task from "../Interfaces/Task";
+import Task from "../../Interfaces/Task";
 import { TasksContext } from "../../contexts/tasks";
 import "bootstrap/dist/css/bootstrap.min.css";
-import axios from "axios";
+import createTaskApi from "../../Functions/API/createTaskApi";
 
 const CreateTask = (props: any) => {
   const trigger = props.trigger;
@@ -43,48 +43,40 @@ const CreateTask = (props: any) => {
   const handleSave = (event: any) => {
     event.preventDefault();
     //Errors
+    let isFailed = false
     if (!taskName) {
       setTaskNameError("Task name is required");
+      isFailed = true;
     }
     if (!description) {
       setDescriptionError("Description is required");
+      isFailed = true;
     }
     if (!hour) {
       setDeadlineError("Deadline is required");
+      isFailed = true;
     }
-    if (taskName && description && hour && !taskNameError) {
+    if (!isFailed && !taskNameError) {
       //API
-      axios
-        .post(
-          "http://localhost:3000/api/tasks",
-          {
-            task: taskName,
-            description: description,
-            status: status,
-            end_time: hour,
-          },
-          {
-            withCredentials: true,
-          }
-        )
+      createTaskApi(taskName, description, hour, status)
         .then((response) => {
           console.log("success");
           //Save task
-          let taskObj: Task = {
+          const taskObj: Task = {
             task_id: response.data.task.task_id,
             task: taskName,
             description: description,
             end_time: hour,
             status: status,
           };
-          console.log(taskObj);
+          console.log("Created new task: " + taskObj);
           save(taskObj);
           //Update context
           setTasks([...tasks, taskObj]);
           emptyInputFields();
         })
         .catch((error) => {
-          console.log("fail");
+          console.log("failed to create a new task");
         });
     }
   };
