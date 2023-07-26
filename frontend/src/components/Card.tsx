@@ -4,27 +4,6 @@ import UpdateTask from "./Popups/UpdateTask";
 import DeleteTask from "./Popups/DeleteTask";
 import isInDeadLine from "../Functions/isInDeadline";
 
-//Colors
-const baseColor = {
-  primary: "#91b5c2",
-  secondary: "#e3e9eb",
-};
-
-const alertColor = {
-  primary: "#e18e8e",
-  secondary: "#ebe3e3",
-};
-
-const checkColor = {
-  primary: "#93dd86",
-  secondary: "#e8f3d4",
-};
-
-const irrelevantColor = {
-  primary: "#D3D3D3",
-  secondary: "#F5F5F5",
-};
-
 const Card = (props: any) => {
   const taskObj = props.taskObj;
   const updateListArray = props.updateListArray;
@@ -35,9 +14,7 @@ const Card = (props: any) => {
   const [toggleUpdateModal, setToggleUpdateModal] = useState(false);
 
   //Initialize card with base color
-  const [color, setColor] = useState(baseColor);
-
-
+  const [color, setColor] = useState("baseColor");
 
   //handle check
   const handleCheck = () => {
@@ -121,16 +98,16 @@ const Card = (props: any) => {
   //Set Task Colors
   useEffect(() => {
     if (taskObj.status === "base") {
-      setColor(baseColor);
+      setColor("baseColor");
     }
     if (taskObj.status === "checked") {
-      setColor(checkColor);
+      setColor("checkColor");
     }
     if (taskObj.status === "alert") {
-      setColor(alertColor);
+      setColor("alertColor");
     }
     if (taskObj.status === "irrelevant") {
-      setColor(irrelevantColor);
+      setColor("irrelevantColor");
     }
   }, [taskObj.status, currentTime]);
 
@@ -143,21 +120,13 @@ const Card = (props: any) => {
 
   return (
     <div className={`card-wrapper ${makeInvisible}`}>
-      <div
-        className={"card-top"}
-        style={{ backgroundColor: color.primary }}
-      ></div>
+      <div className={`card-top ${color}-primary`}></div>
       <div className="task-holder">
-        <span
-          className={"card-header"}
-          style={{ backgroundColor: color.secondary, borderRadius: "10px" }}
-        >
-          {taskObj.task}
-        </span>
-        <p className="mt-3">{taskObj.description}</p>
+        <div className={`card-header ${color}-secondary`}>{taskObj.task}</div>
+        <p className="task-text-holder">{taskObj.description}</p>
 
         {/* icons */}
-        <div style={{ position: "absolute", right: "20px", top: "20px" }}>
+        <div className="checkIconLocation">
           {/* check icon */}
           {taskObj.status !== "checked" ? (
             <i className="fas fa-check icon" onClick={() => handleCheck()}></i>
@@ -168,7 +137,7 @@ const Card = (props: any) => {
             ></i>
           )}
         </div>
-        <div style={{ position: "absolute", right: "20px", top: "50px" }}>
+        <div className="eyeIconLocation">
           {/* eye icon */}
           {taskObj.status !== "irrelevant" ? (
             <i
@@ -182,7 +151,7 @@ const Card = (props: any) => {
             ></i>
           )}
         </div>
-        <div style={{ position: "absolute", right: "20px", bottom: "20px" }}>
+        <div className="editIconLocation">
           {/* edit icon */}
           <i
             className="far fa-edit icon"
@@ -196,12 +165,7 @@ const Card = (props: any) => {
             }}
           ></i>
         </div>
-        <div
-          className="date"
-          style={{ position: "absolute", left: "1em", bottom: "20px" }}
-        >
-          {taskObj.end_time}
-        </div>
+        <div className="date">{taskObj.end_time}</div>
       </div>
       <UpdateTask
         trigger={toggleUpdateModal}

@@ -169,7 +169,7 @@ const CreateTask = (props: any) => {
               }}
             >
               Create
-            </Button>{" "}
+            </Button>
             <Button
               color="secondary"
               onClick={() => {

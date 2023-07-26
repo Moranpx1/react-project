@@ -35,9 +35,11 @@ const NavBar = (props: any) => {
             onClick={handleLogout}
           ></i>
         </span>
-        <div className="navButton" onClick={openCreateModal}>
-          Create Task
-        </div>
+        <span className="navButtonContainer">
+          <div className="navButton" onClick={openCreateModal}>
+            Create Task
+          </div>
+        </span>
         <div className="navSearch">
           <input
             value={searchQuery}

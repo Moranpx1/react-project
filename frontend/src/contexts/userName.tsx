@@ -19,14 +19,11 @@ interface UserNameProviderProps {
 }
 
 const UserNameProvider: React.FC<UserNameProviderProps> = ({ children }) => {
-  const [userName, setUserName] = useState<string>(() => {
-    // Get the stored userName from sessionStorage on component mount
-    const storedUserName = sessionStorage.getItem("userName");
-    return storedUserName || "";
-  });
+  //Set userName from sessionStorage so page reloading won't delete it 
+  const [userName, setUserName] = useState<string>(sessionStorage.getItem("userName") || "");
 
+  // Update sessionStorage whenever userName changes
   useEffect(() => {
-    // Save the userName to sessionStorage
     sessionStorage.setItem("userName", userName);
   }, [userName]);
 
@@ -36,5 +33,6 @@ const UserNameProvider: React.FC<UserNameProviderProps> = ({ children }) => {
     </UserNameContext.Provider>
   );
 };
+
 
 export { UserNameContext, UserNameProvider };

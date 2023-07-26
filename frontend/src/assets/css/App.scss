@@ -1,34 +1,81 @@
+//Variables
+$color-gray-text: rgb(175, 175, 175);
+
+$color-gray-active: #717171;
+
+$background-gray: rgb(241, 241, 241);
+
+$form-gray: rgb(129, 129, 129);
+
+$form-border-gray: rgb(197, 197, 197);
+
+$error-red: rgb(255, 108, 108);
+
+$focus-gray: rgb(105, 105, 105);
+
+$base-blue-color: #91b5c2;
+
+$base-blue-color-active: #708e9a;
+
+$shadow-color: rgba(99, 99, 99, 0.2);
+
+$peri-button-color: rgb(187, 187, 187);
+
+$peri-button-color-hover: rgb(150, 150, 150);
+
+$peri-button-color-active: rgb(109, 109, 109);
+
+$light-shadow-color: #c4c4c4;
+
+$background-light-gray: #e9eef6;
+
+$succes-green: #93dd86;
+
+$nav-blue: #536e78;
+
+$scroll-track: #f6f7f8;
+
+$scroll-thumb: #a5a5a5;
+
+$scroll-thumb-hover: #8c8c8c;
+
 /* Cards coloring */
-.baseColor-primary {
-  background-color: #91b5c2;
-}
 
-.baseColor-secondary {
-  background-color: #e3e9eb !important;
-}
+$baseColor-primary: #91b5c2;
+$baseColor-secondary: #e3e9eb;
 
-.alertColor-primary {
-  background-color: #e18e8e;
-}
+$alertColor-primary:#e18e8e;
+$alertColor-secondary: #ebe3e3;
 
-.alertColor-secondary {
-  background-color: #ebe3e3 !important;
-}
+$checkColor-primary: #93dd86;
+$checkColor-secondary: #e8f3d4;
 
-.checkColor-primary {
-  background-color: #93dd86;
-}
+$irrelevantColor-primary: #D3D3D3;
+$irrelevantColor-secondary: #F5F5F5;
 
-.checkColor-secondary {
-  background-color: #e8f3d4 !important;
+.baseColor-primary{
+  background-color: $baseColor-primary;
 }
-
-.irrelevantColor-primary {
-  background-color: #D3D3D3;
+.baseColor-secondary{
+  background-color: $baseColor-secondary !important;
 }
-
-.irrelevantColor-secondary {
-  background-color: #F5F5F5 !important;
+.alertColor-primary{
+  background-color: $alertColor-primary;
+}
+.alertColor-secondary{
+  background-color: $alertColor-secondary!important;
+}
+.checkColor-primary{
+  background-color: $checkColor-primary;
+}
+.checkColor-secondary{
+  background-color: $checkColor-secondary !important;
+}
+.irrelevantColor-primary{
+  background-color: $irrelevantColor-primary;
+}
+.irrelevantColor-secondary{
+  background-color: $irrelevantColor-secondary !important;
 }
 
 .App {
@@ -37,7 +84,7 @@
   min-height: 100vh;
   align-items: center;
   justify-content: center;
-  background-color: rgb(241, 241, 241);
+  background-color: $background-gray;
 }
 
 .form {
@@ -55,7 +102,7 @@
   font-size: 140%;
   margin-top: 1rem;
   margin-bottom: 1rem;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  box-shadow: $shadow-color 0px 2px 8px 0px;
 }
 
 .register-form-container {
@@ -77,21 +124,21 @@
 
 label {
   padding: 0.5rem;
-  color: rgb(129, 129, 129);
+  color: $form-gray;
 }
 
 input {
   border-radius: 1rem;
-  border: solid 0.01rem rgb(197, 197, 197);
+  border: solid 0.01rem $form-border-gray;
   padding: 0.5rem;
-  color: rgb(129, 129, 129);
+  color: $form-gray;
 }
 
 textarea {
   border-radius: 1rem;
-  border: solid 0.01rem rgb(197, 197, 197);
+  border: solid 0.01rem $form-border-gray;
   padding: 0.5rem;
-  color: rgb(129, 129, 129);
+  color: $form-gray;
 }
 
 .fullWidth {
@@ -107,21 +154,21 @@ textarea:active {
 .errorText {
   margin-top: 0.3rem;
   font-size: 0.9rem;
-  color: rgb(255, 108, 108);
+  color: $error-red;
   visibility: hidden;
 }
 
 .visibleErrorText {
   margin-top: 0.3rem;
   font-size: 0.9rem;
-  color: rgb(255, 108, 108);
+  color: $error-red;
   visibility: visible;
 }
 
 .commentText {
   margin-top: 0.3rem;
   font-size: 0.9rem;
-  color: rgb(175, 175, 175);
+  color: $color-gray-text;
   visibility: visible;
 }
 
@@ -131,15 +178,16 @@ input:invalid:not(:placeholder-shown) + .errorText {
 
 input:focus {
   outline: none;
-  outline: solid 0.02rem rgb(105, 105, 105);
+  outline: solid 0.02rem $focus-gray;
 }
 
 ::placeholder {
-  color: rgb(197, 197, 197);
+  color: $form-border-gray;
   font-size: 90%;
 }
 
 /*Buttons*/
+
 button {
   background-color: none;
   border: none;
@@ -153,11 +201,11 @@ button {
   margin-bottom: 0.5rem;
   border: none;
   border-radius: 1rem;
-  background-color: #91b5c2;
+  background-color: $base-blue-color;
   color: white;
   font: 120%;
   transition: 0.2s;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  box-shadow: $shadow-color 0px 2px 8px 0px;
 }
 
 .bigButton:hover {
@@ -165,39 +213,40 @@ button {
 }
 
 .bigButton:active {
-  background-color: #708e9a;
+  background-color: $base-blue-color-active;
 }
 
 .periButton {
   font-size: 90%;
-  color: rgb(187, 187, 187);
+  color: $peri-button-color;
   background-color: transparent;
   transition: 0.15s;
 }
 
 .periButton:hover {
-  color: rgb(150, 150, 150);
+  color: $peri-button-color-hover;
 }
 
 .periButton:active {
-  color: rgb(109, 109, 109);
+  color: $peri-button-color-active;
 }
 
 .heading {
-  color: #91b5c2;
+  color: $base-blue-color;
   font-size: 180%;
   padding-bottom: 0.5rem;
 }
 
 .headingSuccess {
-  color: #93dd86;
+  color: $succes-green;
 }
 
 /*Card*/
+
 .card-wrapper {
   width: 16rem;
   height: 15rem;
-  box-shadow: 0px 3px 10px #c4c4c4;
+  box-shadow: 0px 3px 10px $light-shadow-color;
   display: flex;
   flex-direction: column;
   margin: 0.8rem;
@@ -226,6 +275,7 @@ button {
   width: 100%;
   margin-top: 6%;
   font-size: 1em;
+
 }
 
 .card-header {
@@ -237,22 +287,23 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0px 2px 2px #c4c4c4;
+  box-shadow: 0px 2px 2px $light-shadow-color;
   transition: ease-in-out 0.2s;
   border-radius: 10px !important;
 }
 
 .date {
   font-size: 80%;
-  color: rgb(175, 175, 175);
+  color: $color-gray-text;
   position: absolute;
   left: 1em;
-  bottom: 1em;
+  bottom: 1em; 
 }
 
 /* Icons */
+
 .icon {
-  color: rgb(175, 175, 175);
+  color: $color-gray-text;
   cursor: pointer;
   transition: 0.2s;
   margin: 0.2em;
@@ -263,18 +314,18 @@ button {
 }
 
 .icon:active {
-  color: #717171;
+  color: $color-gray-active;
   transform: scale(1.2);
 }
 
 .checkIconLocation {
   position: absolute;
-  right: 20px;
+  right: 20px; 
   top: 20px;
 }
 
 .eyeIconLocation {
-  position: absolute;
+  position: absolute; 
   right: 20px;
   top: 50px;
 }
@@ -296,14 +347,14 @@ button {
 }
 
 .task-screen {
-  background-color: rgb(241, 241, 241);
-  width: 100vw;
+  background-color: $background-gray;
+  width: 100vw
 }
 
 .header {
   height: 20vh;
   width: 100%;
-  background-color: #e9eef6;
+  background-color: $background-light-gray;
   padding-top: 5vh;
   display: flex;
   flex-direction: column;
@@ -311,22 +362,23 @@ button {
 }
 
 /* Navigation Bar*/
+
 .navBar {
   width: 100vw;
   height: 10vh;
-  background-color: #536e78;
+  background-color: $nav-blue;
   display: flex;
   align-items: center; /* Added property */
   text-align: center;
-  box-shadow: 0px 2px 4px #c4c4c4;
+  box-shadow: 0px 2px 4px $light-shadow-color;
   color: white;
-  justify-content: space-between;
+  justify-content:space-between;  
   position: sticky;
 }
 
 .navUser {
   display: flex;
-  justify-content: flex-start;
+  justify-content:flex-start;
   align-items: center;
   width: 33vw;
 }
@@ -368,7 +420,7 @@ input.navSearch {
   font-size: 1.3rem;
   border-radius: 1rem;
   margin-right: 10%;
-  color: rgb(129, 129, 129);
+  color: $form-gray;
 }
 
 .navSearch {
@@ -388,12 +440,12 @@ input.navSearch {
 
 .successIcon {
   font-size: 8rem;
-  color: #93dd86;
+  color: $succes-green;
   margin: 6rem;
 }
 
 .popUpButton {
-  background-color: #91b5c2;
+  background-color: $base-blue-color;
 }
 
 .makeInvisible {
@@ -406,20 +458,20 @@ input.navSearch {
 }
 
 ::-webkit-scrollbar-track {
-  background-color: #f6f7f8;
+  background-color: $scroll-track;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #a5a5a5;
+  background-color: $scroll-thumb;
   border-radius: 100vw;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: #8c8c8c;
+  background-color: $scroll-thumb-hover;
 }
 
 .popUpButton {
-  background-color: #91b5c2;
+  background-color: $base-blue-color;
 }
 
 .makeInvisible {
@@ -432,20 +484,20 @@ input.navSearch {
 }
 
 ::-webkit-scrollbar-track {
-  background-color: #f6f7f8;
+  background-color: $scroll-track;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #a5a5a5;
+  background-color: $scroll-thumb;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: #8c8c8c;
+  background-color: $scroll-thumb-hover;
 }
+
+//Defaults
 
 html {
   height: 100%;
   overflow-x: hidden;
 }
-
-/*# sourceMappingURL=App.css.map */

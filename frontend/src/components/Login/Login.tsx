@@ -17,26 +17,6 @@ const Login = (props: any) => {
     password: "",
   });
 
-  //Define attributes of inputs
-  // const inputs = [
-  //   {
-  //     id: "1",
-  //     name: "userName",
-  //     type: "text",
-  //     label: "User Name",
-  //     placeholder: "Enter User Name",
-  //     required: true,
-  //   },
-  //   {
-  //     id: "2",
-  //     name: "password",
-  //     type: "password",
-  //     label: "Password",
-  //     placeholder: "Enter Password",
-  //     required: true,
-  //   },
-  // ];
-
   //OnChange of input fields
   const onChange = (e: React.ChangeEvent<HTMLFormElement>) => {
     console.log(e.target.value);
