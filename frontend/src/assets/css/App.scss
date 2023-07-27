@@ -82,6 +82,7 @@ $irrelevantColor-secondary: #F5F5F5;
   display: flex;
   text-align: center;
   min-height: 100vh;
+  width: 100vw;
   align-items: center;
   justify-content: center;
   background-color: $background-gray;
@@ -265,7 +266,7 @@ button {
 .task-holder {
   width: 100%;
   height: 100%;
-  padding: 2vh 2vh;
+  padding: 0.5em 0.5em;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -273,16 +274,16 @@ button {
 
 .task-text-holder {
   width: 100%;
-  margin-top: 6%;
+  margin-top: 1em;
   font-size: 1em;
 
 }
 
 .card-header {
-  margin-top: 4%;
-  margin-bottom: 4%;
-  width: 60%;
-  height: 20%;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  width: 7em;
+  height: 1.7em;
   padding: 1px 1px !important;
   display: flex;
   align-items: center;
@@ -320,24 +321,23 @@ button {
 
 .checkIconLocation {
   position: absolute;
-  right: 20px; 
-  top: 20px;
-}
+  right: 1em; 
+  top: 1em;
+} 
 
 .eyeIconLocation {
   position: absolute; 
-  right: 20px;
-  top: 50px;
+  right: 1em;
+  top: 2.5em;
 }
 
 .editIconLocation {
   position: absolute;
-  right: 20px;
-  bottom: 20px;
+  right: 1em;
+  bottom: 1em;
 }
 
 .task-container {
-  min-height: 90vh;
   width: 100%;
   display: flex;
   flex-wrap: wrap;
@@ -348,11 +348,12 @@ button {
 
 .task-screen {
   background-color: $background-gray;
-  width: 100vw
+  min-width: 100vw;
+  min-height: 100vh;
 }
 
 .header {
-  height: 20vh;
+  height: 2em;
   width: 100%;
   background-color: $background-light-gray;
   padding-top: 5vh;
@@ -365,22 +366,31 @@ button {
 
 .navBar {
   width: 100vw;
-  height: 10vh;
+  height: 4.5rem;
   background-color: $nav-blue;
   display: flex;
-  align-items: center; /* Added property */
+  align-items: center;
+  white-space: nowrap;
   text-align: center;
   box-shadow: 0px 2px 4px $light-shadow-color;
   color: white;
+  padding: 0.3rem;
   justify-content:space-between;  
   position: sticky;
 }
 
 .navUser {
   display: flex;
-  justify-content:flex-start;
+  justify-content:left;
   align-items: center;
-  width: 33vw;
+  width: 33%;
+  height: 100%;
+}
+
+.navButtonContainer {
+  width: 33%;
+  display: flex;
+  justify-content: center;
 }
 
 .navHello {
@@ -395,37 +405,35 @@ button {
   margin: 1rem;
 }
 
-.navButtonContainer {
-  width: 33vw;
-  display: flex;
-  justify-content: center;
-}
-
 .navButton {
   font-size: 1.5rem;
   transition: 0.2s;
   cursor: pointer;
   margin: 1rem;
+  padding: 0.3rem;
   padding-right: 1rem;
   padding-left: 1rem;
+  border: solid $base-blue-color-active 0.15em;
+  border-radius: 1rem;
 }
 
 .navButton:hover {
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 
 input.navSearch {
   width: 100%;
-  height: 20%;
+  height: 2em;
   font-size: 1.3rem;
   border-radius: 1rem;
-  margin-right: 10%;
+  margin-right: 1em;
   color: $form-gray;
 }
 
 .navSearch {
   display: flex;
-  width: 33vw;
+  justify-content: right;
+  width: 33%;
 }
 
 .navIcon {
@@ -499,5 +507,57 @@ input.navSearch {
 
 html {
   height: 100%;
+  width: 100vw;
   overflow-x: hidden;
+}
+
+body {
+  height: 100%;
+  width: 100vw;
+}
+
+//Media queries
+
+@media screen and (max-width: 807px) and (min-width: 600px) {
+  .navSearch {
+    display: flex;
+    justify-content: right;
+  }
+  .navButtonContainer {
+    display: flex;
+    justify-content: center;
+    margin: 1em;
+  }
+  .navButton {
+    width: 100%;
+    font-size: 1.5rem;
+    transition: 0.2s;
+    cursor: pointer;
+    margin: 1rem;
+    padding: 0.3rem;
+    border: solid $base-blue-color-active 0.15em;
+    border-radius: 1rem;
+  }
+  .navIcon {
+    margin-right: 1em;
+  }
+  
+  .navHello{
+    border-right: none;
+    margin-right: 0;
+    padding: 0;
+    word-wrap: break-all;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .navHello{
+    display: none;
+  }
+  .navButton{
+    width: 100%;
+  }
+  .navIcon{
+    margin-right: 0;
+  }
 }

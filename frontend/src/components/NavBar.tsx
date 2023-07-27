@@ -28,18 +28,18 @@ const NavBar = (props: any) => {
   return (
     <>
       <div className="navBar sticky-top">
-        <span className="navUser">
+        <div className="navUser">
           <div className="navHello">Hello {userName}</div>
           <i
             className=" fa-xl fa fa-arrow-right-from-bracket navIcon"
             onClick={handleLogout}
           ></i>
-        </span>
-        <span className="navButtonContainer">
+        </div>
+        <div className="navButtonContainer">
           <div className="navButton" onClick={openCreateModal}>
             Create Task
           </div>
-        </span>
+        </div>
         <div className="navSearch">
           <input
             value={searchQuery}
