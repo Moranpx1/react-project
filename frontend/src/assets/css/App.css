@@ -1,0 +1,507 @@
+/* Cards coloring */
+.baseColor-primary {
+  background-color: #91b5c2;
+}
+
+.baseColor-secondary {
+  background-color: #e3e9eb !important;
+}
+
+.alertColor-primary {
+  background-color: #e18e8e;
+}
+
+.alertColor-secondary {
+  background-color: #ebe3e3 !important;
+}
+
+.checkColor-primary {
+  background-color: #93dd86;
+}
+
+.checkColor-secondary {
+  background-color: #e8f3d4 !important;
+}
+
+.irrelevantColor-primary {
+  background-color: #D3D3D3;
+}
+
+.irrelevantColor-secondary {
+  background-color: #F5F5F5 !important;
+}
+
+.App {
+  display: flex;
+  text-align: center;
+  min-height: 100vh;
+  width: 100vw;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(241, 241, 241);
+}
+
+.form {
+  padding: 1rem;
+  padding-left: 3rem;
+  padding-right: 3rem;
+  min-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  text-align: left;
+  background-color: white;
+  border-radius: 3rem;
+  font-size: 140%;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.register-form-container {
+  display: flex;
+  align-items: center;
+  text-align: left;
+  flex-direction: row;
+}
+
+.register-form-columns {
+  display: flex;
+  align-items: center;
+  text-align: left;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+label {
+  padding: 0.5rem;
+  color: rgb(129, 129, 129);
+}
+
+input {
+  border-radius: 1rem;
+  border: solid 0.01rem rgb(197, 197, 197);
+  padding: 0.5rem;
+  color: rgb(129, 129, 129);
+}
+
+textarea {
+  border-radius: 1rem;
+  border: solid 0.01rem rgb(197, 197, 197);
+  padding: 0.5rem;
+  color: rgb(129, 129, 129);
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+input:active,
+textarea:active {
+  border: solid 0.08rem black;
+}
+
+/*Error*/
+.errorText {
+  margin-top: 0.3rem;
+  font-size: 0.9rem;
+  color: rgb(255, 108, 108);
+  visibility: hidden;
+}
+
+.visibleErrorText {
+  margin-top: 0.3rem;
+  font-size: 0.9rem;
+  color: rgb(255, 108, 108);
+  visibility: visible;
+}
+
+.commentText {
+  margin-top: 0.3rem;
+  font-size: 0.9rem;
+  color: rgb(175, 175, 175);
+  visibility: visible;
+}
+
+input:invalid:not(:placeholder-shown) + .errorText {
+  visibility: visible;
+}
+
+input:focus {
+  outline: none;
+  outline: solid 0.02rem rgb(105, 105, 105);
+}
+
+::placeholder {
+  color: rgb(197, 197, 197);
+  font-size: 90%;
+}
+
+/*Buttons*/
+button {
+  background-color: none;
+  border: none;
+}
+
+.bigButton {
+  padding: 0.8rem;
+  padding-top: 0.6rem;
+  margin: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  border: none;
+  border-radius: 1rem;
+  background-color: #91b5c2;
+  color: white;
+  font: 120%;
+  transition: 0.2s;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.bigButton:hover {
+  transform: scale(1.1);
+}
+
+.bigButton:active {
+  background-color: #708e9a;
+}
+
+.periButton {
+  font-size: 90%;
+  color: rgb(187, 187, 187);
+  background-color: transparent;
+  transition: 0.15s;
+}
+
+.periButton:hover {
+  color: rgb(150, 150, 150);
+}
+
+.periButton:active {
+  color: rgb(109, 109, 109);
+}
+
+.heading {
+  color: #91b5c2;
+  font-size: 180%;
+  padding-bottom: 0.5rem;
+}
+
+.headingSuccess {
+  color: #93dd86;
+}
+
+/*Card*/
+.card-wrapper {
+  width: 16rem;
+  height: 15rem;
+  box-shadow: 0px 3px 10px #c4c4c4;
+  display: flex;
+  flex-direction: column;
+  margin: 0.8rem;
+  background-color: white;
+  color: gray;
+  font-size: 130%;
+  word-wrap: break-word;
+}
+
+.card-top {
+  width: 100%;
+  height: 8%;
+  transition: ease-in-out 0.2s;
+}
+
+.task-holder {
+  width: 100%;
+  height: 100%;
+  padding: 0.5em 0.5em;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.task-text-holder {
+  width: 100%;
+  margin-top: 1em;
+  font-size: 1em;
+}
+
+.card-header {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  width: 7em;
+  height: 1.7em;
+  padding: 1px 1px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 2px 2px #c4c4c4;
+  transition: ease-in-out 0.2s;
+  border-radius: 10px !important;
+}
+
+.date {
+  font-size: 80%;
+  color: rgb(175, 175, 175);
+  position: absolute;
+  left: 1em;
+  bottom: 1em;
+}
+
+/* Icons */
+.icon {
+  color: rgb(175, 175, 175);
+  cursor: pointer;
+  transition: 0.2s;
+  margin: 0.2em;
+}
+
+.icon:hover {
+  transform: scale(1.2);
+}
+
+.icon:active {
+  color: #717171;
+  transform: scale(1.2);
+}
+
+.checkIconLocation {
+  position: absolute;
+  right: 1em;
+  top: 1em;
+}
+
+.eyeIconLocation {
+  position: absolute;
+  right: 1em;
+  top: 2.5em;
+}
+
+.editIconLocation {
+  position: absolute;
+  right: 1em;
+  bottom: 1em;
+}
+
+.task-container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 1em;
+  justify-content: center;
+  margin-top: 1em;
+}
+
+.task-screen {
+  background-color: rgb(241, 241, 241);
+  min-width: 100vw;
+  min-height: 100vh;
+}
+
+.header {
+  height: 2em;
+  width: 100%;
+  background-color: #e9eef6;
+  padding-top: 5vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Navigation Bar*/
+.navBar {
+  width: 100vw;
+  height: 4.5rem;
+  background-color: #536e78;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  text-align: center;
+  box-shadow: 0px 2px 4px #c4c4c4;
+  color: white;
+  padding: 0.3rem;
+  justify-content: space-between;
+  position: sticky;
+}
+
+.navUser {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  width: 33%;
+  height: 100%;
+}
+
+.navButtonContainer {
+  width: 33%;
+  display: flex;
+  justify-content: center;
+}
+
+.navHello {
+  font-size: 1.5rem;
+  margin: 1rem;
+  border-right: solid 0.15rem;
+  padding-right: 1rem;
+}
+
+.navLogout {
+  font-size: 2rem;
+  margin: 1rem;
+}
+
+.navButton {
+  font-size: 1.5rem;
+  transition: 0.2s;
+  cursor: pointer;
+  margin: 1rem;
+  padding: 0.3rem;
+  padding-right: 1rem;
+  padding-left: 1rem;
+  border: solid #708e9a 0.15em;
+  border-radius: 1rem;
+}
+
+.navButton:hover {
+  transform: scale(1.05);
+}
+
+input.navSearch {
+  width: 100%;
+  height: 2em;
+  font-size: 1.3rem;
+  border-radius: 1rem;
+  margin-right: 1em;
+  color: rgb(129, 129, 129);
+}
+
+.navSearch {
+  display: flex;
+  justify-content: right;
+  width: 33%;
+}
+
+.navIcon {
+  cursor: pointer;
+  transition: 0.2s;
+  margin-left: 1rem;
+}
+
+.navIcon:hover {
+  transform: scale(1.2);
+}
+
+.successIcon {
+  font-size: 8rem;
+  color: #93dd86;
+  margin: 6rem;
+}
+
+.popUpButton {
+  background-color: #91b5c2;
+}
+
+.makeInvisible {
+  opacity: 60%;
+}
+
+/* Scroll bar*/
+::-webkit-scrollbar {
+  width: 0.5em;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f6f7f8;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #a5a5a5;
+  border-radius: 100vw;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #8c8c8c;
+}
+
+.popUpButton {
+  background-color: #91b5c2;
+}
+
+.makeInvisible {
+  opacity: 60%;
+}
+
+/* Scroll bar*/
+::-webkit-scrollbar {
+  width: 0.5rem;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f6f7f8;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #a5a5a5;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #8c8c8c;
+}
+
+html {
+  height: 100%;
+  width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  height: 100%;
+  width: 100vw;
+}
+
+@media screen and (max-width: 807px) and (min-width: 600px) {
+  .navSearch {
+    display: flex;
+    justify-content: right;
+  }
+  .navButtonContainer {
+    display: flex;
+    justify-content: center;
+    margin: 1em;
+  }
+  .navButton {
+    width: 100%;
+    font-size: 1.5rem;
+    transition: 0.2s;
+    cursor: pointer;
+    margin: 1rem;
+    padding: 0.3rem;
+    border: solid #708e9a 0.15em;
+    border-radius: 1rem;
+  }
+  .navIcon {
+    margin-right: 1em;
+  }
+  .navHello {
+    border-right: none;
+    margin-right: 0;
+    padding: 0;
+    word-wrap: break-all;
+  }
+}
+@media screen and (max-width: 600px) {
+  .navHello {
+    display: none;
+  }
+  .navButton {
+    width: 100%;
+  }
+  .navIcon {
+    margin-right: 0;
+  }
+}
+
+/*# sourceMappingURL=App.css.map */

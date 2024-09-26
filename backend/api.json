@@ -43,7 +43,25 @@
         "description": "Endpoint recives username and password object and sets the jwt token as the cookie",
         "tags": [
           "Login/Logout"
-        ]
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "description": ""
+        }
       }
     },
     "/api/logout": {
@@ -88,7 +106,24 @@
         "tags": [
           "Login/Logout"
         ],
-        "description": "Endpoint registers user"
+        "description": "Endpoint registers user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/api/users/:user_id/tasks": {
@@ -271,7 +306,7 @@
                   "status": {
                     "type": "string"
                   },
-                  "endtime": {
+                  "end_time": {
                     "type": "string"
                   }
                 }
